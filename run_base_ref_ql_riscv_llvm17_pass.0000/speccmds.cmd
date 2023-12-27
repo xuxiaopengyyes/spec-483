@@ -1,0 +1,2 @@
+-C /home/xzp/speccpu2006-v1.0.1/benchspec/CPU2006/483.xalancbmk/run/run_base_ref_ql_riscv_llvm17_pass.0000
+-o ref.out -e ref.err ../run_base_ref_ql_riscv_llvm17_pass.0000/Xalan_base.ql_riscv_llvm17_pass -v t5.xml xalanc.xsl
