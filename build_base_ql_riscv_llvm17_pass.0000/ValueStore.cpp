@@ -272,7 +272,7 @@ bool ValueStore::contains(const FieldValueMap* const other) {
 
             FieldValueMap* valueMap = fValueTuples->elementAt(i);
 
-            if (otherSize == valueMap->size()) {
+            //if (otherSize == valueMap->size()) {
 
                 bool matchFound = true;
 
@@ -287,7 +287,7 @@ bool ValueStore::contains(const FieldValueMap* const other) {
                 if (matchFound) { // found it
                     return true;
                 }
-            }
+            //}
         }
     }
 
