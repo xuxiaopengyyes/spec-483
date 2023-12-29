@@ -1,5 +1,0 @@
-digraph "CFG for '_ZNK11xercesc_2_522NoSuchElementException7getTypeEv' function" {
-	label="CFG for '_ZNK11xercesc_2_522NoSuchElementException7getTypeEv' function";
-
-	Node0x560876e08dd0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  ret ptr @_ZN11xercesc_2_56XMLUni29fgNoSuchElementException_NameE\l}"];
-}

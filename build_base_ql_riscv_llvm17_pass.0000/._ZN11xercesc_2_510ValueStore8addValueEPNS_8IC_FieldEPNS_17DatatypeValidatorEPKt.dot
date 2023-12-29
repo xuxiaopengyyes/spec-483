@@ -1,5 +1,0 @@
-digraph "CFG for '_ZN11xercesc_2_510ValueStore8addValueEPNS_8IC_FieldEPNS_17DatatypeValidatorEPKt' function" {
-	label="CFG for '_ZN11xercesc_2_510ValueStore8addValueEPNS_8IC_FieldEPNS_17DatatypeValidatorEPKt' function";
-
-	Node0x560876da56a0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%4:\l  ret void\l}"];
-}

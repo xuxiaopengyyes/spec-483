@@ -1,5 +1,0 @@
-digraph "CFG for '_ZNK11xercesc_2_530ArrayIndexOutOfBoundsException7getTypeEv' function" {
-	label="CFG for '_ZNK11xercesc_2_530ArrayIndexOutOfBoundsException7getTypeEv' function";
-
-	Node0x560876e0b960 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  ret ptr @_ZN11xercesc_2_56XMLUni37fgArrayIndexOutOfBoundsException_NameE\l}"];
-}

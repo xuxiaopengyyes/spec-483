@@ -1,5 +1,0 @@
-digraph "CFG for '_ZN11xercesc_2_515BaseRefVectorOfItED0Ev' function" {
-	label="CFG for '_ZN11xercesc_2_515BaseRefVectorOfItED0Ev' function";
-
-	Node0x560876da4e20 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  tail call void @_ZN11xercesc_2_57XMemorydlEPv(ptr noundef nonnull %0)\l  ret void\l}"];
-}
