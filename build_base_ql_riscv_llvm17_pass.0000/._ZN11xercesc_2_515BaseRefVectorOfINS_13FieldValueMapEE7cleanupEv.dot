@@ -1,0 +1,29 @@
+digraph "CFG for '_ZN11xercesc_2_515BaseRefVectorOfINS_13FieldValueMapEE7cleanupEv' function" {
+	label="CFG for '_ZN11xercesc_2_515BaseRefVectorOfINS_13FieldValueMapEE7cleanupEv' function";
+
+	Node0x560876e36170 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d24b4070",label="{%1:\l  %2 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf\", ptr %0,\l... i64 0, i32 1\l  %3 = load i8, ptr %2, align 8, !tbaa !43, !range !50, !noundef !51\l  %4 = icmp eq i8 %3, 0\l  br i1 %4, label %29, label %5\l|{<s0>T|<s1>F}}"];
+	Node0x560876e36170:s0 -> Node0x560876e36540;
+	Node0x560876e36170:s1 -> Node0x560876e36590;
+	Node0x560876e36590 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d8564670",label="{%5:\l5:                                                \l  %6 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf\", ptr %0,\l... i64 0, i32 2\l  %7 = load i32, ptr %6, align 4, !tbaa !52\l  %8 = icmp eq i32 %7, 0\l  br i1 %8, label %29, label %9\l|{<s0>T|<s1>F}}"];
+	Node0x560876e36590:s0 -> Node0x560876e36540;
+	Node0x560876e36590:s1 -> Node0x560876e361c0;
+	Node0x560876e361c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%9:\l9:                                                \l  %10 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf\", ptr %0,\l... i64 0, i32 4\l  br label %11\l}"];
+	Node0x560876e361c0 -> Node0x560876e36a50;
+	Node0x560876e36a50 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%11:\l11:                                               \l  %12 = phi i32 [ %7, %9 ], [ %22, %21 ]\l  %13 = phi i64 [ 0, %9 ], [ %23, %21 ]\l  %14 = load ptr, ptr %10, align 8, !tbaa !53\l  %15 = getelementptr inbounds ptr, ptr %14, i64 %13\l  %16 = load ptr, ptr %15, align 8, !tbaa !54\l  %17 = icmp eq ptr %16, null\l  br i1 %17, label %21, label %18\l|{<s0>T|<s1>F}}"];
+	Node0x560876e36a50:s0 -> Node0x560876e36b10;
+	Node0x560876e36a50:s1 -> Node0x560876e36df0;
+	Node0x560876e36df0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%18:\l18:                                               \l  invoke void @_ZN11xercesc_2_513FieldValueMapD1Ev(ptr noundef nonnull align 8\l... dereferenceable(32) %16)\l          to label %19 unwind label %26\l}"];
+	Node0x560876e36df0 -> Node0x560876e36f60;
+	Node0x560876e36df0 -> Node0x560876e36fb0;
+	Node0x560876e36f60 [shape=record,color="#b70d28ff", style=filled, fillcolor="#be242e70",label="{%19:\l19:                                               \l  tail call void @_ZN11xercesc_2_57XMemorydlEPv(ptr noundef nonnull %16)\l  %20 = load i32, ptr %6, align 4, !tbaa !52\l  br label %21\l}"];
+	Node0x560876e36f60 -> Node0x560876e36b10;
+	Node0x560876e36b10 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%21:\l21:                                               \l  %22 = phi i32 [ %12, %11 ], [ %20, %19 ]\l  %23 = add nuw nsw i64 %13, 1\l  %24 = zext i32 %22 to i64\l  %25 = icmp ult i64 %23, %24\l  br i1 %25, label %11, label %29\l|{<s0>T|<s1>F}}"];
+	Node0x560876e36b10:s0 -> Node0x560876e36a50;
+	Node0x560876e36b10:s1 -> Node0x560876e36540;
+	Node0x560876e36fb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e3d9d370",label="{%26:\l26:                                               \l  %27 = landingpad \{ ptr, i32 \}\l          cleanup\l  invoke void @_ZN11xercesc_2_57XMemorydlEPv(ptr noundef nonnull %16)\l          to label %28 unwind label %37\l}"];
+	Node0x560876e36fb0 -> Node0x560876e37650;
+	Node0x560876e36fb0 -> Node0x560876e376a0;
+	Node0x560876e37650 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e3d9d370",label="{%28:\l28:                                               \l  resume \{ ptr, i32 \} %27\l}"];
+	Node0x560876e36540 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#d24b4070",label="{%29:\l29:                                               \l  %30 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf\", ptr %0,\l... i64 0, i32 5\l  %31 = load ptr, ptr %30, align 8, !tbaa !55\l  %32 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf\", ptr %0,\l... i64 0, i32 4\l  %33 = load ptr, ptr %32, align 8, !tbaa !53\l  %34 = load ptr, ptr %31, align 8, !tbaa !56\l  %35 = getelementptr inbounds ptr, ptr %34, i64 3\l  %36 = load ptr, ptr %35, align 8\l  tail call void %36(ptr noundef nonnull align 8 dereferenceable(8) %31, ptr\l... noundef %33)\l  ret void\l}"];
+	Node0x560876e376a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#4f69d970",label="{%37:\l37:                                               \l  %38 = landingpad \{ ptr, i32 \}\l          catch ptr null\l  %39 = extractvalue \{ ptr, i32 \} %38, 0\l  tail call void @__clang_call_terminate(ptr %39) #11\l  unreachable\l}"];
+}

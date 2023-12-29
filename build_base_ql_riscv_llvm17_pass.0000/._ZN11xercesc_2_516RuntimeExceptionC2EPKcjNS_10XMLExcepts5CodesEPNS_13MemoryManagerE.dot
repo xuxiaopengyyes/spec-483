@@ -1,0 +1,13 @@
+digraph "CFG for '_ZN11xercesc_2_516RuntimeExceptionC2EPKcjNS_10XMLExcepts5CodesEPNS_13MemoryManagerE' function" {
+	label="CFG for '_ZN11xercesc_2_516RuntimeExceptionC2EPKcjNS_10XMLExcepts5CodesEPNS_13MemoryManagerE' function";
+
+	Node0x560876dd48e0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l  tail call void\l... @_ZN11xercesc_2_512XMLExceptionC2EPKcjPNS_13MemoryManagerE(ptr noundef\l... nonnull align 8 dereferenceable(48) %0, ptr noundef %1, i32 noundef %2, ptr\l... noundef %4)\l  store ptr getelementptr inbounds (\{ [6 x ptr] \}, ptr\l... @_ZTVN11xercesc_2_516RuntimeExceptionE, i64 0, inrange i32 0, i64 2), ptr %0,\l... align 8, !tbaa !43\l  invoke void\l... @_ZN11xercesc_2_512XMLException14loadExceptTextENS_10XMLExcepts5CodesE(ptr\l... noundef nonnull align 8 dereferenceable(48) %0, i32 noundef %3)\l          to label %6 unwind label %7\l}"];
+	Node0x560876dd48e0 -> Node0x560876dd4c40;
+	Node0x560876dd48e0 -> Node0x560876dd4c90;
+	Node0x560876dd4c40 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%6:\l6:                                                \l  ret void\l}"];
+	Node0x560876dd4c90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%7:\l7:                                                \l  %8 = landingpad \{ ptr, i32 \}\l          cleanup\l  invoke void @_ZN11xercesc_2_512XMLExceptionD2Ev(ptr noundef nonnull align 8\l... dereferenceable(48) %0)\l          to label %9 unwind label %10\l}"];
+	Node0x560876dd4c90 -> Node0x560876dd4670;
+	Node0x560876dd4c90 -> Node0x560876dd4f10;
+	Node0x560876dd4670 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%9:\l9:                                                \l  resume \{ ptr, i32 \} %8\l}"];
+	Node0x560876dd4f10 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#536edd70",label="{%10:\l10:                                               \l  %11 = landingpad \{ ptr, i32 \}\l          catch ptr null\l  %12 = extractvalue \{ ptr, i32 \} %11, 0\l  tail call void @__clang_call_terminate(ptr %12) #11\l  unreachable\l}"];
+}

@@ -1,0 +1,16 @@
+digraph "CFG for '_ZN11xercesc_2_516RefArrayVectorOfItED2Ev' function" {
+	label="CFG for '_ZN11xercesc_2_516RefArrayVectorOfItED2Ev' function";
+
+	Node0x560876e0cbb0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8d6cc70",label="{%1:\l  store ptr getelementptr inbounds (\{ [9 x ptr] \}, ptr\l... @_ZTVN11xercesc_2_516RefArrayVectorOfItEE, i64 0, inrange i32 0, i64 2), ptr\l... %0, align 8, !tbaa !43\l  %2 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr %0,\l... i64 0, i32 1\l  %3 = load i8, ptr %2, align 8, !tbaa !46, !range !52, !noundef !53\l  %4 = icmp eq i8 %3, 0\l  br i1 %4, label %25, label %5\l|{<s0>T|<s1>F}}"];
+	Node0x560876e0cbb0:s0 -> Node0x560876dac080;
+	Node0x560876e0cbb0:s1 -> Node0x560876d94600;
+	Node0x560876d94600 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#cedaeb70",label="{%5:\l5:                                                \l  %6 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr %0,\l... i64 0, i32 2\l  %7 = load i32, ptr %6, align 4, !tbaa !54\l  %8 = icmp eq i32 %7, 0\l  br i1 %8, label %25, label %9\l|{<s0>T|<s1>F}}"];
+	Node0x560876d94600:s0 -> Node0x560876dac080;
+	Node0x560876d94600:s1 -> Node0x560876d93c20;
+	Node0x560876d93c20 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#b9d0f970",label="{%9:\l9:                                                \l  %10 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 5\l  %11 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 4\l  br label %12\l}"];
+	Node0x560876d93c20 -> Node0x560876d93cc0;
+	Node0x560876d93cc0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%12:\l12:                                               \l  %13 = phi i64 [ 0, %9 ], [ %21, %12 ]\l  %14 = load ptr, ptr %10, align 8, !tbaa !55\l  %15 = load ptr, ptr %11, align 8, !tbaa !56\l  %16 = getelementptr inbounds ptr, ptr %15, i64 %13\l  %17 = load ptr, ptr %16, align 8, !tbaa !57\l  %18 = load ptr, ptr %14, align 8, !tbaa !43\l  %19 = getelementptr inbounds ptr, ptr %18, i64 3\l  %20 = load ptr, ptr %19, align 8\l  tail call void %20(ptr noundef nonnull align 8 dereferenceable(8) %14, ptr\l... noundef %17)\l  %21 = add nuw nsw i64 %13, 1\l  %22 = load i32, ptr %6, align 4, !tbaa !54\l  %23 = zext i32 %22 to i64\l  %24 = icmp ult i64 %21, %23\l  br i1 %24, label %12, label %25\l|{<s0>T|<s1>F}}"];
+	Node0x560876d93cc0:s0 -> Node0x560876d93cc0;
+	Node0x560876d93cc0:s1 -> Node0x560876dac080;
+	Node0x560876dac080 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e8d6cc70",label="{%25:\l25:                                               \l  %26 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 5\l  %27 = load ptr, ptr %26, align 8, !tbaa !55\l  %28 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 4\l  %29 = load ptr, ptr %28, align 8, !tbaa !56\l  %30 = load ptr, ptr %27, align 8, !tbaa !43\l  %31 = getelementptr inbounds ptr, ptr %30, i64 3\l  %32 = load ptr, ptr %31, align 8\l  tail call void %32(ptr noundef nonnull align 8 dereferenceable(8) %27, ptr\l... noundef %29)\l  ret void\l}"];
+}

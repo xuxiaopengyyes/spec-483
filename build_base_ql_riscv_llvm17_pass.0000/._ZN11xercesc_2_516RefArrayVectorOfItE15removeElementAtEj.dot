@@ -1,0 +1,35 @@
+digraph "CFG for '_ZN11xercesc_2_516RefArrayVectorOfItE15removeElementAtEj' function" {
+	label="CFG for '_ZN11xercesc_2_516RefArrayVectorOfItE15removeElementAtEj' function";
+
+	Node0x560876e14840 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%2:\l  %3 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr %0,\l... i64 0, i32 2\l  %4 = load i32, ptr %3, align 4, !tbaa !43\l  %5 = icmp ugt i32 %4, %1\l  br i1 %5, label %13, label %6\l|{<s0>T|<s1>F}}"];
+	Node0x560876e14840:s0 -> Node0x560876e14c00;
+	Node0x560876e14840:s1 -> Node0x560876e14c50;
+	Node0x560876e14c50 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6c8ff170",label="{%6:\l6:                                                \l  %7 = tail call ptr @__cxa_allocate_exception(i64 48) #11\l  %8 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr %0,\l... i64 0, i32 5\l  %9 = load ptr, ptr %8, align 8, !tbaa !50\l  invoke void\l... @_ZN11xercesc_2_530ArrayIndexOutOfBoundsExceptionC2EPKcjNS_10XMLExcepts5CodesE\l...PNS_13MemoryManagerE(ptr noundef nonnull align 8 dereferenceable(48) %7, ptr\l... noundef nonnull @.str.3, i32 noundef 117, i32 noundef 109, ptr noundef %9)\l          to label %10 unwind label %11\l}"];
+	Node0x560876e14c50 -> Node0x560876e14890;
+	Node0x560876e14c50 -> Node0x560876e150a0;
+	Node0x560876e14890 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5f7fe870",label="{%10:\l10:                                               \l  tail call void @__cxa_throw(ptr nonnull %7, ptr nonnull\l... @_ZTIN11xercesc_2_530ArrayIndexOutOfBoundsExceptionE, ptr nonnull\l... @_ZN11xercesc_2_512XMLExceptionD2Ev) #12\l  unreachable\l}"];
+	Node0x560876e150a0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5f7fe870",label="{%11:\l11:                                               \l  %12 = landingpad \{ ptr, i32 \}\l          cleanup\l  tail call void @__cxa_free_exception(ptr %7) #11\l  resume \{ ptr, i32 \} %12\l}"];
+	Node0x560876e14c00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%13:\l13:                                               \l  %14 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 1\l  %15 = load i8, ptr %14, align 8, !tbaa !51, !range !52, !noundef !53\l  %16 = icmp eq i8 %15, 0\l  br i1 %16, label %29, label %17\l|{<s0>T|<s1>F}}"];
+	Node0x560876e14c00:s0 -> Node0x560876e15830;
+	Node0x560876e14c00:s1 -> Node0x560876e15880;
+	Node0x560876e15880 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e1675170",label="{%17:\l17:                                               \l  %18 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 5\l  %19 = load ptr, ptr %18, align 8, !tbaa !50\l  %20 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 4\l  %21 = load ptr, ptr %20, align 8, !tbaa !54\l  %22 = zext i32 %1 to i64\l  %23 = getelementptr inbounds ptr, ptr %21, i64 %22\l  %24 = load ptr, ptr %23, align 8, !tbaa !55\l  %25 = load ptr, ptr %19, align 8, !tbaa !56\l  %26 = getelementptr inbounds ptr, ptr %25, i64 3\l  %27 = load ptr, ptr %26, align 8\l  tail call void %27(ptr noundef nonnull align 8 dereferenceable(8) %19, ptr\l... noundef %24)\l  %28 = load i32, ptr %3, align 4, !tbaa !43\l  br label %29\l}"];
+	Node0x560876e15880 -> Node0x560876e15830;
+	Node0x560876e15830 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%29:\l29:                                               \l  %30 = phi i32 [ %28, %17 ], [ %4, %13 ]\l  %31 = add i32 %30, -1\l  %32 = icmp eq i32 %31, %1\l  br i1 %32, label %41, label %33\l|{<s0>T|<s1>F}}"];
+	Node0x560876e15830:s0 -> Node0x560876e16230;
+	Node0x560876e15830:s1 -> Node0x560876e16280;
+	Node0x560876e16280 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5705870",label="{%33:\l33:                                               \l  %34 = icmp ugt i32 %31, %1\l  br i1 %34, label %37, label %35\l|{<s0>T|<s1>F}}"];
+	Node0x560876e16280:s0 -> Node0x560876e16410;
+	Node0x560876e16280:s1 -> Node0x560876e16460;
+	Node0x560876e16460 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ec7f6370",label="{%35:\l35:                                               \l  %36 = zext i32 %31 to i64\l  br label %46\l}"];
+	Node0x560876e16460 -> Node0x560876e165d0;
+	Node0x560876e16410 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#ec7f6370",label="{%37:\l37:                                               \l  %38 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 4\l  %39 = zext i32 %1 to i64\l  %40 = zext i32 %31 to i64\l  br label %51\l}"];
+	Node0x560876e16410 -> Node0x560876e16830;
+	Node0x560876e16230 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5705870",label="{%41:\l41:                                               \l  %42 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 4\l  %43 = load ptr, ptr %42, align 8, !tbaa !54\l  %44 = zext i32 %1 to i64\l  %45 = getelementptr inbounds ptr, ptr %43, i64 %44\l  br label %59\l}"];
+	Node0x560876e16230 -> Node0x560876e16b30;
+	Node0x560876e165d0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5705870",label="{%46:\l46:                                               \l  %47 = phi i64 [ %36, %35 ], [ %40, %51 ]\l  %48 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 4\l  %49 = load ptr, ptr %48, align 8, !tbaa !54\l  %50 = getelementptr inbounds ptr, ptr %49, i64 %47\l  br label %59\l}"];
+	Node0x560876e165d0 -> Node0x560876e16b30;
+	Node0x560876e16830 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%51:\l51:                                               \l  %52 = phi i64 [ %39, %37 ], [ %54, %51 ]\l  %53 = load ptr, ptr %38, align 8, !tbaa !54\l  %54 = add nuw nsw i64 %52, 1\l  %55 = getelementptr inbounds ptr, ptr %53, i64 %54\l  %56 = load ptr, ptr %55, align 8, !tbaa !55\l  %57 = getelementptr inbounds ptr, ptr %53, i64 %52\l  store ptr %56, ptr %57, align 8, !tbaa !55\l  %58 = icmp eq i64 %54, %40\l  br i1 %58, label %46, label %51\l|{<s0>T|<s1>F}}"];
+	Node0x560876e16830:s0 -> Node0x560876e165d0;
+	Node0x560876e16830:s1 -> Node0x560876e16830;
+	Node0x560876e16b30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#dc5d4a70",label="{%59:\l59:                                               \l  %60 = phi ptr [ %50, %46 ], [ %45, %41 ]\l  store ptr null, ptr %60, align 8, !tbaa !55\l  store i32 %31, ptr %3, align 4, !tbaa !43\l  ret void\l}"];
+}

@@ -1,0 +1,13 @@
+digraph "CFG for '_ZN11xercesc_2_516RefArrayVectorOfItE17removeLastElementEv' function" {
+	label="CFG for '_ZN11xercesc_2_516RefArrayVectorOfItE17removeLastElementEv' function";
+
+	Node0x560876e17630 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr %0,\l... i64 0, i32 2\l  %3 = load i32, ptr %2, align 4, !tbaa !43\l  %4 = icmp eq i32 %3, 0\l  br i1 %4, label %21, label %5\l|{<s0>T|<s1>F}}"];
+	Node0x560876e17630:s0 -> Node0x560876e17970;
+	Node0x560876e17630:s1 -> Node0x560876e179c0;
+	Node0x560876e179c0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#e97a5f70",label="{%5:\l5:                                                \l  %6 = add i32 %3, -1\l  store i32 %6, ptr %2, align 4, !tbaa !43\l  %7 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr %0,\l... i64 0, i32 1\l  %8 = load i8, ptr %7, align 8, !tbaa !50, !range !51, !noundef !52\l  %9 = icmp eq i8 %8, 0\l  br i1 %9, label %21, label %10\l|{<s0>T|<s1>F}}"];
+	Node0x560876e179c0:s0 -> Node0x560876e17970;
+	Node0x560876e179c0:s1 -> Node0x560876e17680;
+	Node0x560876e17680 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#f7af9170",label="{%10:\l10:                                               \l  %11 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 5\l  %12 = load ptr, ptr %11, align 8, !tbaa !53\l  %13 = getelementptr inbounds %\"class.xercesc_2_5::BaseRefVectorOf.0\", ptr\l... %0, i64 0, i32 4\l  %14 = load ptr, ptr %13, align 8, !tbaa !54\l  %15 = zext i32 %6 to i64\l  %16 = getelementptr inbounds ptr, ptr %14, i64 %15\l  %17 = load ptr, ptr %16, align 8, !tbaa !55\l  %18 = load ptr, ptr %12, align 8, !tbaa !56\l  %19 = getelementptr inbounds ptr, ptr %18, i64 3\l  %20 = load ptr, ptr %19, align 8\l  tail call void %20(ptr noundef nonnull align 8 dereferenceable(8) %12, ptr\l... noundef %17)\l  br label %21\l}"];
+	Node0x560876e17680 -> Node0x560876e17970;
+	Node0x560876e17970 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%21:\l21:                                               \l  ret void\l}"];
+}

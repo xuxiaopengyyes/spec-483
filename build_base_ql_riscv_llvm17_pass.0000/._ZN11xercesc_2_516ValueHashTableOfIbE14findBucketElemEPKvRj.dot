@@ -1,0 +1,22 @@
+digraph "CFG for '_ZN11xercesc_2_516ValueHashTableOfIbE14findBucketElemEPKvRj' function" {
+	label="CFG for '_ZN11xercesc_2_516ValueHashTableOfIbE14findBucketElemEPKvRj' function";
+
+	Node0x560876dfbc40 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%3:\l  %4 = getelementptr inbounds %\"class.xercesc_2_5::ValueHashTableOf\", ptr %0,\l... i64 0, i32 3\l  %5 = load ptr, ptr %4, align 8, !tbaa !43\l  %6 = getelementptr inbounds %\"class.xercesc_2_5::ValueHashTableOf\", ptr %0,\l... i64 0, i32 2\l  %7 = load i32, ptr %6, align 8, !tbaa !49\l  %8 = load ptr, ptr %0, align 8, !tbaa !50\l  %9 = load ptr, ptr %5, align 8, !tbaa !51\l  %10 = load ptr, ptr %9, align 8\l  %11 = tail call noundef i32 %10(ptr noundef nonnull align 8\l... dereferenceable(8) %5, ptr noundef %1, i32 noundef %7, ptr noundef %8)\l  store i32 %11, ptr %2, align 4, !tbaa !53\l  %12 = load i32, ptr %6, align 8, !tbaa !49\l  %13 = icmp ugt i32 %11, %12\l  br i1 %13, label %14, label %20\l|{<s0>T|<s1>F}}"];
+	Node0x560876dfbc40:s0 -> Node0x560876dfce00;
+	Node0x560876dfbc40:s1 -> Node0x560876dfce90;
+	Node0x560876dfce00 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#6a8bef70",label="{%14:\l14:                                               \l  %15 = tail call ptr @__cxa_allocate_exception(i64 48) #11\l  %16 = load ptr, ptr %0, align 8, !tbaa !50\l  invoke void\l... @_ZN11xercesc_2_516RuntimeExceptionC2EPKcjNS_10XMLExcepts5CodesEPNS_13MemoryMa\l...nagerE(ptr noundef nonnull align 8 dereferenceable(48) %15, ptr noundef\l... nonnull @.str, i32 noundef 260, i32 noundef 49, ptr noundef %16)\l          to label %17 unwind label %18\l}"];
+	Node0x560876dfce00 -> Node0x560876dfd770;
+	Node0x560876dfce00 -> Node0x560876dfd7c0;
+	Node0x560876dfd770 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5f7fe870",label="{%17:\l17:                                               \l  tail call void @__cxa_throw(ptr nonnull %15, ptr nonnull\l... @_ZTIN11xercesc_2_516RuntimeExceptionE, ptr nonnull\l... @_ZN11xercesc_2_512XMLExceptionD2Ev) #12\l  unreachable\l}"];
+	Node0x560876dfd7c0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#5f7fe870",label="{%18:\l18:                                               \l  %19 = landingpad \{ ptr, i32 \}\l          cleanup\l  tail call void @__cxa_free_exception(ptr %15) #11\l  resume \{ ptr, i32 \} %19\l}"];
+	Node0x560876dfce90 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%20:\l20:                                               \l  %21 = getelementptr inbounds %\"class.xercesc_2_5::ValueHashTableOf\", ptr %0,\l... i64 0, i32 1\l  %22 = load ptr, ptr %21, align 8, !tbaa !54\l  %23 = zext i32 %11 to i64\l  %24 = getelementptr inbounds ptr, ptr %22, i64 %23\l  %25 = load ptr, ptr %24, align 8, !tbaa !55\l  %26 = icmp eq ptr %25, null\l  br i1 %26, label %40, label %27\l|{<s0>T|<s1>F}}"];
+	Node0x560876dfce90:s0 -> Node0x560876dfe200;
+	Node0x560876dfce90:s1 -> Node0x560876dfe290;
+	Node0x560876dfe290 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%27:\l27:                                               \l  %28 = phi ptr [ %38, %36 ], [ %25, %20 ]\l  %29 = load ptr, ptr %4, align 8, !tbaa !43\l  %30 = getelementptr inbounds\l... %\"struct.xercesc_2_5::ValueHashTableBucketElem\", ptr %28, i64 0, i32 2\l  %31 = load ptr, ptr %30, align 8, !tbaa !56\l  %32 = load ptr, ptr %29, align 8, !tbaa !51\l  %33 = getelementptr inbounds ptr, ptr %32, i64 1\l  %34 = load ptr, ptr %33, align 8\l  %35 = tail call noundef zeroext i1 %34(ptr noundef nonnull align 8\l... dereferenceable(8) %29, ptr noundef %1, ptr noundef %31)\l  br i1 %35, label %40, label %36\l|{<s0>T|<s1>F}}"];
+	Node0x560876dfe290:s0 -> Node0x560876dfe200;
+	Node0x560876dfe290:s1 -> Node0x560876dfe3d0;
+	Node0x560876dfe3d0 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%36:\l36:                                               \l  %37 = getelementptr inbounds\l... %\"struct.xercesc_2_5::ValueHashTableBucketElem\", ptr %28, i64 0, i32 1\l  %38 = load ptr, ptr %37, align 8, !tbaa !55\l  %39 = icmp eq ptr %38, null\l  br i1 %39, label %40, label %27\l|{<s0>T|<s1>F}}"];
+	Node0x560876dfe3d0:s0 -> Node0x560876dfe200;
+	Node0x560876dfe3d0:s1 -> Node0x560876dfe290;
+	Node0x560876dfe200 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#de614d70",label="{%40:\l40:                                               \l  %41 = phi ptr [ null, %20 ], [ null, %36 ], [ %28, %27 ]\l  ret ptr %41\l}"];
+}

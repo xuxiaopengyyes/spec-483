@@ -267,27 +267,23 @@ bool ValueStore::contains(const FieldValueMap* const other) {
 
         unsigned int otherSize = other->size();
         unsigned int tupleSize = fValueTuples->size();
+        for (unsigned int j=0; j<otherSize; j++) {
+            
+            for (unsigned int i=0; i<tupleSize; i++) {
 
-        for (unsigned int i=0; i<tupleSize; i++) {
-
-            FieldValueMap* valueMap = fValueTuples->elementAt(i);
-
-            //if (otherSize == valueMap->size()) {
+                FieldValueMap* valueMap = fValueTuples->elementAt(i);
 
                 bool matchFound = true;
-
-                for (unsigned int j=0; j<otherSize; j++) {
-                    if (!isDuplicateOf(valueMap->getDatatypeValidatorAt(j), valueMap->getValueAt(j),
-                                       other->getDatatypeValidatorAt(j), other->getValueAt(j))) {
-                        matchFound = false;
-                        break;
-                    }
+                    
+                if (!isDuplicateOf(valueMap->getDatatypeValidatorAt(j), valueMap->getValueAt(j),
+                                other->getDatatypeValidatorAt(j), other->getValueAt(j))) {
+                    matchFound = false;
                 }
-
+                    
                 if (matchFound) { // found it
                     return true;
                 }
-            //}
+            }
         }
     }
 

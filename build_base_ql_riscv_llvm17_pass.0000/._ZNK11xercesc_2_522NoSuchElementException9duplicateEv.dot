@@ -1,0 +1,13 @@
+digraph "CFG for '_ZNK11xercesc_2_522NoSuchElementException9duplicateEv' function" {
+	label="CFG for '_ZNK11xercesc_2_522NoSuchElementException9duplicateEv' function";
+
+	Node0x560876e09080 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%1:\l  %2 = getelementptr inbounds %\"class.xercesc_2_5::XMLException\", ptr %0, i64\l... 0, i32 5\l  %3 = load ptr, ptr %2, align 8, !tbaa !43\l  %4 = tail call noundef ptr\l... @_ZN11xercesc_2_57XMemorynwEmPNS_13MemoryManagerE(i64 noundef 48, ptr noundef\l... %3)\l  invoke void @_ZN11xercesc_2_512XMLExceptionC2ERKS0_(ptr noundef nonnull\l... align 8 dereferenceable(48) %4, ptr noundef nonnull align 8\l... dereferenceable(48) %0)\l          to label %5 unwind label %6\l}"];
+	Node0x560876e09080 -> Node0x560876e09890;
+	Node0x560876e09080 -> Node0x560876e098e0;
+	Node0x560876e09890 [shape=record,color="#b70d28ff", style=filled, fillcolor="#b70d2870",label="{%5:\l5:                                                \l  store ptr getelementptr inbounds (\{ [6 x ptr] \}, ptr\l... @_ZTVN11xercesc_2_522NoSuchElementExceptionE, i64 0, inrange i32 0, i64 2),\l... ptr %4, align 8, !tbaa !50\l  ret ptr %4\l}"];
+	Node0x560876e098e0 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%6:\l6:                                                \l  %7 = landingpad \{ ptr, i32 \}\l          cleanup\l  invoke void @_ZN11xercesc_2_57XMemorydlEPvPNS_13MemoryManagerE(ptr noundef\l... %4, ptr noundef %3)\l          to label %8 unwind label %9\l}"];
+	Node0x560876e098e0 -> Node0x560876de6d30;
+	Node0x560876e098e0 -> Node0x560876de6d80;
+	Node0x560876de6d30 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#e5d8d170",label="{%8:\l8:                                                \l  resume \{ ptr, i32 \} %7\l}"];
+	Node0x560876de6d80 [shape=record,color="#3d50c3ff", style=filled, fillcolor="#536edd70",label="{%9:\l9:                                                \l  %10 = landingpad \{ ptr, i32 \}\l          catch ptr null\l  %11 = extractvalue \{ ptr, i32 \} %10, 0\l  tail call void @__clang_call_terminate(ptr %11) #11\l  unreachable\l}"];
+}

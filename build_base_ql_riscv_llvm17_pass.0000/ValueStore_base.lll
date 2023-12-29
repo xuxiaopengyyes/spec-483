@@ -1258,7 +1258,7 @@ define dso_local noundef zeroext i1 @_ZN11xercesc_2_510ValueStore8containsEPKNS_
   br label %92
 
 92:                                               ; preds = %87, %78
-  %93 = phi ptr [ %91, %87 ], [ null, %78 ]
+  %93 = phi ptr [ %91, %87 ], [ null, %78 ] ; other->getDatatypeValidatorAt(j)
   %94 = load ptr, ptr %23, align 8, !tbaa !81
   %95 = icmp eq ptr %94, null
   br i1 %95, label %106, label %96
@@ -1278,7 +1278,7 @@ define dso_local noundef zeroext i1 @_ZN11xercesc_2_510ValueStore8containsEPKNS_
   br label %106
 
 106:                                              ; preds = %101, %92
-  %107 = phi ptr [ %105, %101 ], [ null, %92 ]
+  %107 = phi ptr [ %105, %101 ], [ null, %92 ] ;other->getValueAt(j)
   %108 = tail call noundef zeroext i1 @_ZN11xercesc_2_510ValueStore13isDuplicateOfEPNS_17DatatypeValidatorEPKtS2_S4_(ptr noundef nonnull align 8 dereferenceable(80) %0, ptr noundef %65, ptr noundef %79, ptr noundef %93, ptr noundef %107)
   br i1 %108, label %47, label %109
 
