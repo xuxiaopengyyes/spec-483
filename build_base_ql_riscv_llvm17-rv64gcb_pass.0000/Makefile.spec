@@ -277,7 +277,7 @@ BENCH_CXXFLAGS   = -DAPP_NO_THREADS -DXALAN_INMEM_MSG_LOADER -I. -Ixercesc -Ixer
 CC               = /home/xzp/lib/llvm-riscv-17.0.0-rc2/bin/clang --target=riscv64-unknown-linux-gnu --gcc-toolchain=/home/xzp/lib/gnu-riscv64 --sysroot=/home/xzp/lib/gnu-riscv64/sysroot/
 COPTIMIZE        = -Wno-int-conversion -O3 -ffast-math -march=rv64gc_zba_zbb_zbc_zbs -flto -ffp-contract=off  -Wno-compound-token-split-by-macro  -static
 CXX              = /home/xzp/lib/llvm-riscv-17.0.0-rc2/bin/clang++ --target=riscv64-unknown-linux-gnu --gcc-toolchain=/home/xzp/lib/gnu-riscv64 --sysroot=/home/xzp/lib/gnu-riscv64/sysroot/
-CXXOPTIMIZE      = -std=c++98 -O3 -ffast-math -march=rv64gc_zba_zbb_zbc_zbs -flto -ffp-contract=off -Wno-compound-token-split-by-macro -static -fprofile-use=merged.profdata
+CXXOPTIMIZE      = -std=c++98 -O3 -ffast-math -march=rv64gc_zba_zbb_zbc_zbs -flto -ffp-contract=off -Wno-compound-token-split-by-macro -static  -fprofile-use=merged.profdata
 CXXPORTABILITY   = -DSPEC_CPU_LINUX -DXALAN_STRICT_ANSI_HEADERS -include cstdlib -include cstring -include ctime
 EXTRA_LDFLAGS    = -z muldefs -fuse-ld=lld
 EXTRA_LIBS       = -lrt -lpthread -L/home/xzp/jemalloc/jemalloc-5.2.1-riscv/lib -ljemalloc

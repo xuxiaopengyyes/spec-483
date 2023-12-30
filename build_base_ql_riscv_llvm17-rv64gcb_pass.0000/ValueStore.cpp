@@ -267,35 +267,39 @@ bool ValueStore::contains(const FieldValueMap* const other) {
 
         unsigned int otherSize = other->size();
         unsigned int tupleSize = fValueTuples->size();
+        
+        for (unsigned int j=0; j<otherSize; j++) {
+            
+            DatatypeValidator* dv2 = other->getDatatypeValidatorAt(j);
+            XMLCh* val2 = other->getValueAt(j);
 
-        for (unsigned int i=0; i<tupleSize; i++) {
+            unsigned int val2Len = XMLString::stringLen(val2);
 
-            FieldValueMap* valueMap = fValueTuples->elementAt(i);
+            for (unsigned int i=0; i<tupleSize; i++) {
 
-            if (otherSize == valueMap->size()) {
+                FieldValueMap* valueMap = fValueTuples->elementAt(i);
 
-                bool matchFound = true;
+                if (otherSize == valueMap->size()) {
 
-                for (unsigned int j=0; j<otherSize; j++) {
+                    bool matchFound = true;
+                    //isDuplicateOf被inline
                     if (!isDuplicateOf(valueMap->getDatatypeValidatorAt(j), valueMap->getValueAt(j),
-                                       other->getDatatypeValidatorAt(j), other->getValueAt(j))) {
+                                       dv2, val2, val2Len)) {
                         matchFound = false;
-                        break;
                     }
-                }
-
-                if (matchFound) { // found it
-                    return true;
+                
+                    if (matchFound) { // found it
+                        return true;
+                    }
                 }
             }
         }
     }
 
     return false;
-}
-
+ }
 bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const val1,
-                               DatatypeValidator* const dv2, const XMLCh* const val2) {
+                               DatatypeValidator* const dv2, const XMLCh* const val2, unsigned int val2Len) {
 
     // if either validator's null, fall back on string comparison
     if(!dv1 || !dv2) {
@@ -303,7 +307,7 @@ bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const 
     }
 
     unsigned int val1Len = XMLString::stringLen(val1);
-    unsigned int val2Len = XMLString::stringLen(val2);
+    //unsigned int val2Len = XMLString::stringLen(val2);
 
     if (!val1Len && !val2Len) {
 
@@ -342,7 +346,6 @@ bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const 
     // if we're here it means the types weren't related.  Must fall back to strings:
     return (XMLString::equals(val1, val2));
 }
-
 
 // ---------------------------------------------------------------------------
 //  ValueStore: Docuement handling methods

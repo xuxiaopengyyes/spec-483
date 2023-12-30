@@ -148,7 +148,7 @@ private:
       * - The datatypes are unrelated and the values are Stringwise identical.
       */
     bool isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const val1,
-                       DatatypeValidator* const dv2, const XMLCh* const val2);
+                       DatatypeValidator* const dv2, const XMLCh* const val2, unsigned int val2Len);
 
 
     // -----------------------------------------------------------------------
