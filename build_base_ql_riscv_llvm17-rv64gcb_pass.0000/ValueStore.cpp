@@ -281,16 +281,12 @@ bool ValueStore::contains(const FieldValueMap* const other) {
 
                 if (otherSize == valueMap->size()) {
 
-                    bool matchFound = true;
                     //isDuplicateOf被inline
-                    if (!isDuplicateOf(valueMap->getDatatypeValidatorAt(j), valueMap->getValueAt(j),
+                    if (isDuplicateOf(valueMap->getDatatypeValidatorAt(j), valueMap->getValueAt(j),
                                        dv2, val2, val2Len)) {
-                        matchFound = false;
-                    }
-                
-                    if (matchFound) { // found it
                         return true;
                     }
+                
                 }
             }
         }
@@ -307,7 +303,7 @@ bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const 
     }
 
     unsigned int val1Len = XMLString::stringLen(val1);
-    //unsigned int val2Len = XMLString::stringLen(val2);
+    //unsigned int val3Len = XMLString::stringLen(val2);
 
     if (!val1Len && !val2Len) {
 
@@ -325,7 +321,29 @@ bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const 
     // are the validators equal?
     // As always we are obliged to compare by reference...
     if (dv1 == dv2) {
-        return ((dv1->compare(val1, val2, fMemoryManager)) == 0);
+
+        unsigned int j = val2Len/4;
+        unsigned int i = 0;
+        for(; i<j; i++)
+        {
+            // If an inequality, then return the difference
+            if (((u_int64_t*)val1)[i] != ((u_int64_t*)val2)[i])
+            {
+                return false;
+            }
+        }
+        for(unsigned int k= 4*i; k < val2Len+1; k++)
+        {
+            //If an inequality, then return the difference
+            if (val1[k] != val2[k])
+                return false;
+
+            // If either has ended, then they both ended, so equal
+            if (!val1[k])
+                break;
+        }
+
+        return true;
     }
 
     // see if this.fValidator is derived from value.fValidator:

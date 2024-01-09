@@ -994,15 +994,15 @@ int XMLString::compareString(   const   XMLCh* const    str1
     const XMLCh* psz1 = str1;
     const XMLCh* psz2 = str2;
 
-    if (psz1 == 0 || psz2 == 0) {
+    // if (psz1 == 0 || psz2 == 0) {
 
-        if (psz1 == 0) {
-            return 0 - XMLString::stringLen(psz2);
-        }
-		else if (psz2 == 0) {
-            return XMLString::stringLen(psz1);
-        }
-    }
+    //     if (psz1 == 0) {
+    //         return 0 - XMLString::stringLen(psz2);
+    //     }
+	// 	else if (psz2 == 0) {
+    //         return XMLString::stringLen(psz1);
+    //     }
+    // }
 
     while (true)
     {

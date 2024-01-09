@@ -81,6 +81,8 @@ void* MemoryManagerImpl::allocate(size_t size)
     void* memptr;
     try {
         memptr = ::operator new(size);
+        //memptr = aligned_alloc(sizeof(u_int64_t),(size/sizeof(u_int64_t)+1)*sizeof(u_int64_t));
+        //memptr = aligned_alloc(4,size);
     }
     catch(...) {
         throw OutOfMemoryException();

@@ -87,6 +87,7 @@ void* MemoryManagerArrayImpl::allocate(size_t size)
         //return ::operator new[](size);
         //return new char[size];
         memptr = new char[size];
+        
     }
     catch(...) {
         throw OutOfMemoryException();

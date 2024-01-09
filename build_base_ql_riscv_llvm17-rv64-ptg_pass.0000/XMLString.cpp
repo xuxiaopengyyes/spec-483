@@ -987,6 +987,39 @@ int XMLString::compareNIString( const   XMLCh* const    str1
     return XMLPlatformUtils::fgTransService->compareNIString(str1, str2, maxChars);
 }
 
+int XMLString::compareString1(   const   XMLCh* const    psz1
+                                , const XMLCh* const    psz2, unsigned int Len)
+{
+    unsigned int j = Len/4;
+    unsigned int i = 0;
+    for(;i<j;i++)
+    {
+        // If an inequality, then return the difference
+        if (((u_int64_t*)psz1)[i] != ((u_int64_t*)psz2)[i])
+        {
+            for(unsigned int k=0;k<4;k++)
+            {
+                if(psz1[4*i+k]!=psz2[4*i+k])
+                {
+                    return int(psz1[4*i+k]) - int(psz2[4*i+k]);
+                }
+            }
+            //return -1;
+        }
+    }
+    for(unsigned int k= 4*i;k<Len+1;k++)
+    {
+        //If an inequality, then return the difference
+        if (psz1[k] != psz2[k])
+            return int(psz1[k]) - int(psz2[k]);
+
+        // If either has ended, then they both ended, so equal
+        if (!psz1[k])
+            break;
+    }
+
+    return 0;
+}
 
 int XMLString::compareString(   const   XMLCh* const    str1
                                 , const XMLCh* const    str2)
@@ -994,15 +1027,15 @@ int XMLString::compareString(   const   XMLCh* const    str1
     const XMLCh* psz1 = str1;
     const XMLCh* psz2 = str2;
 
-    if (psz1 == 0 || psz2 == 0) {
+    // if (psz1 == 0 || psz2 == 0) {
 
-        if (psz1 == 0) {
-            return 0 - XMLString::stringLen(psz2);
-        }
-		else if (psz2 == 0) {
-            return XMLString::stringLen(psz1);
-        }
-    }
+    //     if (psz1 == 0) {
+    //         return 0 - XMLString::stringLen(psz2);
+    //     }
+	// 	else if (psz2 == 0) {
+    //         return XMLString::stringLen(psz1);
+    //     }
+    // }
 
     while (true)
     {

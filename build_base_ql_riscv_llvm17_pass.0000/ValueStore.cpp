@@ -267,11 +267,9 @@ bool ValueStore::contains(const FieldValueMap* const other) {
 
         unsigned int otherSize = other->size();
         unsigned int tupleSize = fValueTuples->size();
-        
-        for (unsigned int j=0; j<otherSize; j++) {
             
-            DatatypeValidator* dv2 = other->getDatatypeValidatorAt(j);
-            XMLCh* val2 = other->getValueAt(j);
+            DatatypeValidator* dv2 = other->getDatatypeValidatorAt(0);
+            XMLCh* val2 = other->getValueAt(0);
 
             unsigned int val2Len = XMLString::stringLen(val2);
 
@@ -280,20 +278,16 @@ bool ValueStore::contains(const FieldValueMap* const other) {
                 FieldValueMap* valueMap = fValueTuples->elementAt(i);
 
                 if (otherSize == valueMap->size()) {
-
-                    bool matchFound = true;
+                    
                     //isDuplicateOf被inline
-                    if (!isDuplicateOf(valueMap->getDatatypeValidatorAt(j), valueMap->getValueAt(j),
+                    if (isDuplicateOf(valueMap->getDatatypeValidatorAt(0), valueMap->getValueAt(0),
                                        dv2, val2, val2Len)) {
-                        matchFound = false;
-                    }
-                
-                    if (matchFound) { // found it
                         return true;
                     }
+                
                 }
             }
-        }
+        
     }
 
     return false;
