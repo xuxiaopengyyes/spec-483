@@ -1,0 +1,4 @@
+-C /home/xzp/speccpu2006-v1.0.1/benchspec/CPU2006/464.h264ref/run/run_base_ref_ql_riscv_llvm17.0000
+-o foreman_ref_baseline_encodelog.out -e foreman_ref_baseline_encodelog.err ../run_base_ref_ql_riscv_llvm17.0000/h264ref_base.ql_riscv_llvm17 -d foreman_ref_encoder_baseline.cfg
+-o foreman_ref_main_encodelog.out -e foreman_ref_main_encodelog.err ../run_base_ref_ql_riscv_llvm17.0000/h264ref_base.ql_riscv_llvm17 -d foreman_ref_encoder_main.cfg
+-o sss_main_encodelog.out -e sss_main_encodelog.err ../run_base_ref_ql_riscv_llvm17.0000/h264ref_base.ql_riscv_llvm17 -d sss_encoder_main.cfg
