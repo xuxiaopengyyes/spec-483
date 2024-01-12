@@ -28688,7 +28688,7 @@
   411|       |
   412|   544M|    orgptr = orig_blocks;
   413|   544M|    bindex = 0;
-  414|  2.72G|    for (blky = 0; blky < 4; blky++)//xxzp 可以重点看看 不知道咋改
+  414|  2.72G|    for (blky = 0; blky < 4; blky++)//xxzp 可以重点看看 不知道咋改 //一气化三清
   415|  2.17G|    {
   416|  2.17G|      LineSadBlk0 = LineSadBlk1 = LineSadBlk2 = LineSadBlk3 = 0;
   417|  10.8G|      for (y = 0; y < 4; y++)

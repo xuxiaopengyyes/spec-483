@@ -233,7 +233,8 @@ ResetFastFullIntegerSearch ()
 void
 SetupLargerBlocks (int list, int refindex, int max_pos)
 {
-#define ADD_UP_BLOCKS()   _o=*_bo; _i=*_bi; _j=*_bj; for(pos=0;pos<max_pos-4;pos+=4) {_o[pos] = _i[pos] + _j[pos]; _o[pos+1] = _i[pos+1] + _j[pos+1]; _o[pos+2] = _i[pos+2] + _j[pos+2]; _o[pos+3] = _i[pos+3] + _j[pos+3];} for(;pos<max_pos;pos++) _o[pos] = _i[pos] + _j[pos];
+//#define ADD_UP_BLOCKS()   _o=*_bo; _i=*_bi; _j=*_bj; for(pos=0;pos<max_pos-4;pos+=4) {_o[pos] = _i[pos] + _j[pos]; _o[pos+1] = _i[pos+1] + _j[pos+1]; _o[pos+2] = _i[pos+2] + _j[pos+2]; _o[pos+3] = _i[pos+3] + _j[pos+3];} for(;pos<max_pos;pos++) _o[pos] = _i[pos] + _j[pos];
+#define ADD_UP_BLOCKS()   _o=*_bo; _i=*_bi; _j=*_bj; for(pos=0;pos<max_pos;pos++) _o[pos] = _i[pos] + _j[pos];
 #define INCREMENT(inc)    _bo+=inc; _bi+=inc; _bj+=inc;
 
   int    pos, **_bo, **_bi, **_bj;
@@ -405,16 +406,46 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
         for (blky = 0; blky < 4; blky++)
         {
           LineSadBlk0 = LineSadBlk1 = LineSadBlk2 = LineSadBlk3 = 0;
-          //#pragma clang loop unroll_count(4)
+
+          pel_t* refptrarr[4];
+          // refptrarr[0] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          // refptrarr[1] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          // refptrarr[2] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          // refptrarr[3] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          // for (y = 0; y < 4; y++)
+          // {
+          //   //refptr = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          //   int index = 16*y;
+          //   LineSadBlk0 += byte_abs [*(refptrarr[y]) - *(orgptr+0+index)];
+          //   LineSadBlk0 += byte_abs [*(refptrarr[y]+1) - *(orgptr+1+index)];
+          //   LineSadBlk0 += byte_abs [*(refptrarr[y]+2) - *(orgptr+2+index)];
+          //   LineSadBlk0 += byte_abs [*(refptrarr[y]+3) - *(orgptr+3+index)];
+          // }
+          
+          refptrarr[0] = UMVLine16Y_11 (ref_pic, abs_y, abs_x, img_height, img_width);
+          refptrarr[1] = UMVLine16Y_11 (ref_pic, abs_y+1, abs_x, img_height, img_width);
+          refptrarr[2] = UMVLine16Y_11 (ref_pic, abs_y+2, abs_x, img_height, img_width);
+          refptrarr[3] = UMVLine16Y_11 (ref_pic, abs_y+3, abs_x, img_height, img_width);
+          
           for (y = 0; y < 4; y++)
           {
-            refptr = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-
+            
+            refptr = UMVLine16Y_11 (ref_pic, abs_y+y, abs_x, img_height, img_width);
+            //abs_y++;
+            if( refptrarr[y] != refptr) printf("xxzp y == %d\n",y);
+            refptr = refptrarr[y];
             LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-
+            // refptr++;
+            // orgptr++;
+            // refptr++;
+            // orgptr++;
+            // refptr++;
+            // orgptr++;
+            // refptr++;
+            // orgptr++;
             LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
@@ -428,6 +459,47 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
             LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
           }
+          abs_y+=4;
+          //#pragma clang loop unroll_count(4)
+          // pel_t* refptr[4];
+          // refptr[0] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          // refptr[1] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          // refptr[2] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          // refptr[3] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+
+          // for (y = 0; y < 4; y++)
+          // {
+          //   //refptr = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          //   int index = 16*y;
+          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+0+index)];
+          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+1+index)];
+          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+2+index)];
+          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+3+index)];
+          // }
+          // for (y = 0; y < 4; y++)
+          // {
+          //   int index = 16*y;
+          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+4+index)];
+          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+5+index)];
+          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+6+index)];
+          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+7+index)];
+          // }
+          // for (y = 0; y < 4; y++)
+          // {
+          //   int index = 16*y;
+          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+8+index)];
+          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+9+index)];
+          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+10+index)];
+          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+11+index)];
+          // }
+          // for (y = 0; y < 4; y++)
+          // {
+          //   int index = 16*y;
+          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+12+index)];
+          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+13+index)];
+          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+14+index)];
+          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+15+index)];
+          // }
           block_sad[bindex++][pos] = LineSadBlk0;
           block_sad[bindex++][pos] = LineSadBlk1;
           block_sad[bindex++][pos] = LineSadBlk2;
@@ -1055,22 +1127,22 @@ SATD (int* diff, int use_hadamard)
   if (use_hadamard)
   {
     /*===== hadamard transform =====*/
-    m[ 0] = diff[ 0] + diff[12];
-    m[ 1] = diff[ 1] + diff[13];
-    m[ 2] = diff[ 2] + diff[14];
-    m[ 3] = diff[ 3] + diff[15];
-    m[ 4] = diff[ 4] + diff[ 8];
-    m[ 5] = diff[ 5] + diff[ 9];
-    m[ 6] = diff[ 6] + diff[10];
-    m[ 7] = diff[ 7] + diff[11];
-    m[ 8] = diff[ 4] - diff[ 8];
-    m[ 9] = diff[ 5] - diff[ 9];
-    m[10] = diff[ 6] - diff[10];
-    m[11] = diff[ 7] - diff[11];
-    m[12] = diff[ 0] - diff[12];
-    m[13] = diff[ 1] - diff[13];
-    m[14] = diff[ 2] - diff[14];
-    m[15] = diff[ 3] - diff[15];
+    // m[ 0] = diff[ 0] + diff[12];
+    // m[ 1] = diff[ 1] + diff[13];
+    // m[ 2] = diff[ 2] + diff[14];
+    // m[ 3] = diff[ 3] + diff[15];
+    // m[ 4] = diff[ 4] + diff[ 8];
+    // m[ 5] = diff[ 5] + diff[ 9];
+    // m[ 6] = diff[ 6] + diff[10];
+    // m[ 7] = diff[ 7] + diff[11];
+    // m[ 8] = diff[ 4] - diff[ 8];
+    // m[ 9] = diff[ 5] - diff[ 9];
+    // m[10] = diff[ 6] - diff[10];
+    // m[11] = diff[ 7] - diff[11];
+    // m[12] = diff[ 0] - diff[12];
+    // m[13] = diff[ 1] - diff[13];
+    // m[14] = diff[ 2] - diff[14];
+    // m[15] = diff[ 3] - diff[15];
     
     // d[ 0] = m[ 0] + m[ 4];
     // d[ 8] = m[ 0] - m[ 4];
@@ -1088,22 +1160,22 @@ SATD (int* diff, int use_hadamard)
     // d[11] = m[ 3] - m[ 7];
     // d[ 7] = m[11] + m[15];
     // d[15] = m[15] - m[11];
-    d[ 0] = diff[ 0] + diff[12] + diff[ 4] + diff[ 8];
-    d[ 8] = diff[ 0] + diff[12] - diff[ 4] - diff[ 8];
-    d[ 4] = diff[ 4] - diff[ 8] + diff[ 0] - diff[12];
-    d[12] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8];
-    d[ 1] = diff[ 1] + diff[13] + diff[ 5] + diff[ 9];
-    d[ 9] = diff[ 1] + diff[13] - diff[ 5] - diff[ 9];
-    d[ 5] = diff[ 5] - diff[ 9] + diff[ 1] - diff[13];
-    d[13] = diff[ 1] - diff[13] - diff[ 5] + diff[ 9];
-    d[ 2] = diff[ 2] + diff[14] + diff[ 6] + diff[10];
-    d[10] = diff[ 2] + diff[14] - diff[ 6] - diff[10];
-    d[ 6] = diff[ 6] - diff[10] + diff[ 2] - diff[14];
-    d[14] = diff[ 2] - diff[14] - diff[ 6] + diff[10];
-    d[ 3] = diff[ 3] + diff[15] + diff[ 7] + diff[11];
-    d[11] = diff[ 3] + diff[15] - diff[ 7] - diff[11];
-    d[ 7] = diff[ 7] - diff[11] + diff[ 3] - diff[15];
-    d[15] = diff[ 3] - diff[15] - diff[ 7] + diff[11];
+    // d[ 0] = diff[ 0] + diff[12] + diff[ 4] + diff[ 8];
+    // d[ 8] = diff[ 0] + diff[12] - diff[ 4] - diff[ 8];
+    // d[ 4] = diff[ 4] - diff[ 8] + diff[ 0] - diff[12];
+    // d[12] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8];
+    // d[ 1] = diff[ 1] + diff[13] + diff[ 5] + diff[ 9];
+    // d[ 9] = diff[ 1] + diff[13] - diff[ 5] - diff[ 9];
+    // d[ 5] = diff[ 5] - diff[ 9] + diff[ 1] - diff[13];
+    // d[13] = diff[ 1] - diff[13] - diff[ 5] + diff[ 9];
+    // d[ 2] = diff[ 2] + diff[14] + diff[ 6] + diff[10];
+    // d[10] = diff[ 2] + diff[14] - diff[ 6] - diff[10];
+    // d[ 6] = diff[ 6] - diff[10] + diff[ 2] - diff[14];
+    // d[14] = diff[ 2] - diff[14] - diff[ 6] + diff[10];
+    // d[ 3] = diff[ 3] + diff[15] + diff[ 7] + diff[11];
+    // d[11] = diff[ 3] + diff[15] - diff[ 7] - diff[11];
+    // d[ 7] = diff[ 7] - diff[11] + diff[ 3] - diff[15];
+    // d[15] = diff[ 3] - diff[15] - diff[ 7] + diff[11];
     
     // m[ 0] = d[ 0] + d[ 3];
     // m[ 1] = d[ 1] + d[ 2];
@@ -1133,7 +1205,6 @@ SATD (int* diff, int use_hadamard)
     m[ 9] = diff[ 1] + diff[13] - diff[ 5] - diff[ 9] + diff[ 2] + diff[14] - diff[ 6] - diff[10];
     m[10] = diff[ 1] + diff[13] - diff[ 5] - diff[ 9] - diff[ 2] - diff[14] + diff[ 6] + diff[10];
     m[11] = diff[ 0] + diff[12] - diff[ 4] - diff[ 8] - diff[ 3] - diff[15] + diff[ 7] + diff[11];
-    
     m[12] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8] + diff[ 3] - diff[15] - diff[ 7] + diff[11];
     m[13] = diff[ 1] - diff[13] - diff[ 5] + diff[ 9] + diff[ 2] - diff[14] - diff[ 6] + diff[10];
     m[14] = diff[ 1] - diff[13] - diff[ 5] + diff[ 9] - diff[ 2] + diff[14] + diff[ 6] - diff[10];
@@ -1157,6 +1228,22 @@ SATD (int* diff, int use_hadamard)
     d[14] = m[14] + m[15];
     d[15] = m[15] - m[14];
 
+    // d[ 0] = diff[ 0] + diff[12] + diff[ 4] + diff[ 8] + diff[ 3] + diff[15] + diff[ 7] + diff[11] + diff[ 1] + diff[13] + diff[ 5] + diff[ 9] + diff[ 2] + diff[14] + diff[ 6] + diff[10];
+    // d[ 1] = diff[ 0] + diff[12] + diff[ 4] + diff[ 8] + diff[ 3] + diff[15] + diff[ 7] + diff[11] - diff[ 1] - diff[13] - diff[ 5] - diff[ 9] - diff[ 2] - diff[14] - diff[ 6] - diff[10];
+    // d[ 2] = diff[ 1] + diff[13] + diff[ 5] + diff[ 9] - diff[ 2] - diff[14] - diff[ 6] - diff[10] + diff[ 0] + diff[12] + diff[ 4] + diff[ 8] - diff[ 3] - diff[15] - diff[ 7] - diff[11];
+    // d[ 3] = diff[ 0] + diff[12] + diff[ 4] + diff[ 8] - diff[ 3] - diff[15] - diff[ 7] - diff[11] - diff[ 1] - diff[13] - diff[ 5] - diff[ 9] + diff[ 2] + diff[14] + diff[ 6] + diff[10];
+    // d[ 4] = diff[ 4] - diff[ 8] + diff[ 0] - diff[12] + diff[ 7] - diff[11] + diff[ 3] - diff[15] + diff[ 5] - diff[ 9] + diff[ 1] - diff[13] + diff[ 6] - diff[10] + diff[ 2] - diff[14];
+    // d[ 5] = diff[ 4] - diff[ 8] + diff[ 0] - diff[12] + diff[ 7] - diff[11] + diff[ 3] - diff[15] - diff[ 5] + diff[ 9] - diff[ 1] + diff[13] - diff[ 6] + diff[10] - diff[ 2] + diff[14];
+    // d[ 6] = diff[ 5] - diff[ 9] + diff[ 1] - diff[13] - diff[ 6] + diff[10] - diff[ 2] + diff[14] + diff[ 4] - diff[ 8] + diff[ 0] - diff[12] - diff[ 7] + diff[11] - diff[ 3] + diff[15];
+    // d[ 7] = diff[ 4] - diff[ 8] + diff[ 0] - diff[12] - diff[ 7] + diff[11] - diff[ 3] + diff[15] - diff[ 5] + diff[ 9] - diff[ 1] + diff[13] + diff[ 6] - diff[10] + diff[ 2] - diff[14];
+    // d[ 8] = diff[ 0] + diff[12] - diff[ 4] - diff[ 8] + diff[ 3] + diff[15] - diff[ 7] - diff[11] + diff[ 1] + diff[13] - diff[ 5] - diff[ 9] + diff[ 2] + diff[14] - diff[ 6] - diff[10];
+    // d[ 9] = diff[ 0] + diff[12] - diff[ 4] - diff[ 8] + diff[ 3] + diff[15] - diff[ 7] - diff[11] - diff[ 1] - diff[13] + diff[ 5] + diff[ 9] - diff[ 2] - diff[14] + diff[ 6] + diff[10];
+    // d[10] = diff[ 1] + diff[13] - diff[ 5] - diff[ 9] - diff[ 2] - diff[14] + diff[ 6] + diff[10] + diff[ 0] + diff[12] - diff[ 4] - diff[ 8] - diff[ 3] - diff[15] + diff[ 7] + diff[11];
+    // d[11] = diff[ 0] + diff[12] - diff[ 4] - diff[ 8] - diff[ 3] - diff[15] + diff[ 7] + diff[11] - diff[ 1] - diff[13] + diff[ 5] + diff[ 9] + diff[ 2] + diff[14] - diff[ 6] - diff[10];
+    // d[12] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8] + diff[ 3] - diff[15] - diff[ 7] + diff[11] + diff[ 1] - diff[13] - diff[ 5] + diff[ 9] + diff[ 2] - diff[14] - diff[ 6] + diff[10];
+    // d[13] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8] + diff[ 3] - diff[15] - diff[ 7] + diff[11] - diff[ 1] + diff[13] + diff[ 5] - diff[ 9] - diff[ 2] + diff[14] + diff[ 6] - diff[10];
+    // d[14] = diff[ 1] - diff[13] - diff[ 5] + diff[ 9] - diff[ 2] + diff[14] + diff[ 6] - diff[10] + diff[ 0] - diff[12] - diff[ 4] + diff[ 8] - diff[ 3] + diff[15] + diff[ 7] - diff[11];
+    // d[15] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8] - diff[ 3] + diff[15] + diff[ 7] - diff[11] - diff[ 1] + diff[13] + diff[ 5] - diff[ 9] + diff[ 2] - diff[14] - diff[ 6] + diff[10];
     
     /*===== sum up =====*/
     for (dd=d[k=0]; k<16; dd=d[++k])

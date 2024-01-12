@@ -58,6 +58,7 @@ pel_t *UMVLine16Y_11 (pel_t *Pic, int y, int x, int height, int width)
     for (i = x; i < maxx; i++)
       line[i-x] = Picy [0];       // Replicate left edge pixel
 
+
     maxx = x+16;
     for (i = 0; i < maxx; i++)    // Copy non-edge pixels
       line[i-x] = Picy [i];

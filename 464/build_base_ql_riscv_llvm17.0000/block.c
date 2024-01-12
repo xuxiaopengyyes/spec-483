@@ -905,12 +905,19 @@ int dct_luma(int block_x,int block_y,int *coeff_cost, int intra)
   //  Horizontal transform
   for (j=0; j < BLOCK_SIZE && !lossless_qpprime; j++)
   {
-    for (i=0; i < 2; i++)
-    {
-      i1=3-i;
-      m5[i]=img->m7[i][j]+img->m7[i1][j];
-      m5[i1]=img->m7[i][j]-img->m7[i1][j];
-    }
+    // for (i=0; i < 2; i++)
+    // {
+    //   i1=3-i;
+    //   m5[i]=img->m7[i][j]+img->m7[i1][j];
+    //   m5[i1]=img->m7[i][j]-img->m7[i1][j];
+    // }
+    
+    m5[0]=img->m7[0][j]+img->m7[3][j];
+    m5[3]=img->m7[0][j]-img->m7[3][j];
+    m5[1]=img->m7[1][j]+img->m7[2][j];
+    m5[2]=img->m7[1][j]-img->m7[2][j];
+
+
     img->m7[0][j]=(m5[0]+m5[1]);
     img->m7[2][j]=(m5[0]-m5[1]);
     img->m7[1][j]=m5[3]*2+m5[2];
@@ -920,12 +927,17 @@ int dct_luma(int block_x,int block_y,int *coeff_cost, int intra)
   //  Vertical transform
   for (i=0; i < BLOCK_SIZE && !lossless_qpprime; i++)
   {
-    for (j=0; j < 2; j++)
-    {
-      j1=3-j;
-      m5[j]=img->m7[i][j]+img->m7[i][j1];
-      m5[j1]=img->m7[i][j]-img->m7[i][j1];
-    }
+    // for (j=0; j < 2; j++)
+    // {
+    //   j1=3-j;
+    //   m5[j]=img->m7[i][j]+img->m7[i][j1];
+    //   m5[j1]=img->m7[i][j]-img->m7[i][j1];
+    // }
+    m5[0]=img->m7[i][0]+img->m7[i][3];
+    m5[3]=img->m7[i][0]-img->m7[i][3];
+    m5[1]=img->m7[i][1]+img->m7[i][2];
+    m5[2]=img->m7[i][1]-img->m7[i][2];
+
     img->m7[i][0]=(m5[0]+m5[1]);
     img->m7[i][2]=(m5[0]-m5[1]);
     img->m7[i][1]=m5[3]*2+m5[2];
@@ -1007,73 +1019,160 @@ int dct_luma(int block_x,int block_y,int *coeff_cost, int intra)
   //     horizontal
   for (j=0; j < BLOCK_SIZE && !lossless_qpprime; j++)
   {
-    for (i=0; i < BLOCK_SIZE; i++)
-    {
-      m5[i]=img->m7[i][j];
-    }
+    // for (i=0; i < BLOCK_SIZE; i++)
+    // {
+    //   m5[i]=img->m7[i][j];
+    // }
+    m5[0]=img->m7[0][j];
+    m5[1]=img->m7[1][j];
+    m5[2]=img->m7[2][j];
+    m5[3]=img->m7[3][j];
+
     m6[0]=(m5[0]+m5[2]);
     m6[1]=(m5[0]-m5[2]);
     m6[2]=(m5[1]>>1)-m5[3];
     m6[3]=m5[1]+(m5[3]>>1);
 
-    for (i=0; i < 2; i++)
-    {
-      i1=3-i;
-      img->m7[i][j]=m6[i]+m6[i1];
-      img->m7[i1][j]=m6[i]-m6[i1];
-    }
+    // for (i=0; i < 2; i++)
+    // {
+    //   i1=3-i;
+    //   img->m7[i][j]=m6[i]+m6[i1];
+    //   img->m7[i1][j]=m6[i]-m6[i1];
+    // }
+    img->m7[0][j]=m6[0]+m6[3];
+    img->m7[3][j]=m6[0]-m6[3];
+    img->m7[1][j]=m6[1]+m6[2];
+    img->m7[2][j]=m6[1]-m6[2];
+
   }
 
   //  vertical
   for (i=0; i < BLOCK_SIZE && !lossless_qpprime; i++)
   {
-    for (j=0; j < BLOCK_SIZE; j++)
-    {
-      m5[j]=img->m7[i][j];
-    }
+    // for (j=0; j < BLOCK_SIZE; j++)
+    // {
+    //   m5[j]=img->m7[i][j];
+    // }
+    m5[0]=img->m7[i][0];
+    m5[1]=img->m7[i][1];
+    m5[2]=img->m7[i][2];
+    m5[3]=img->m7[i][3];
+    
     m6[0]=(m5[0]+m5[2]);
     m6[1]=(m5[0]-m5[2]);
     m6[2]=(m5[1]>>1)-m5[3];
     m6[3]=m5[1]+(m5[3]>>1);
 
-    for (j=0; j < 2; j++)
+    // for (j=0; j < 2; j++)
+    // {
+    //   j1=3-j;
+    //   // Residue Color Transform
+    //   if (!img->residue_transform_flag)
+    //   {
+    //     img->m7[i][j] =min(img->max_imgpel_value,max(0,(m6[j]+m6[j1]+((long)img->mpr[i+block_x][j+block_y] <<DQ_BITS)+DQ_ROUND)>>DQ_BITS));
+    //     img->m7[i][j1]=min(img->max_imgpel_value,max(0,(m6[j]-m6[j1]+((long)img->mpr[i+block_x][j1+block_y]<<DQ_BITS)+DQ_ROUND)>>DQ_BITS));
+    //   } 
+    //   else 
+    //   {
+    //     if(lossless_qpprime)
+    //     {
+    //       img->m7[i][j] =m6[j]+m6[j1];
+    //       img->m7[i][j1]=m6[j]-m6[j1];
+    //     }
+    //     else
+    //     {
+    //       img->m7[i][j] =(m6[j]+m6[j1]+DQ_ROUND)>>DQ_BITS;
+    //       img->m7[i][j1]=(m6[j]-m6[j1]+DQ_ROUND)>>DQ_BITS;
+    //     }
+    //   }
+    // }
+    
+    //j1=3-j;
+    // Residue Color Transform
+    if (!img->residue_transform_flag)
     {
-      j1=3-j;
-      // Residue Color Transform
-      if (!img->residue_transform_flag)
+      img->m7[i][0] =min(img->max_imgpel_value,max(0,(m6[0]+m6[3]+((long)img->mpr[i+block_x][0+block_y] <<DQ_BITS)+DQ_ROUND)>>DQ_BITS));
+      img->m7[i][3]=min(img->max_imgpel_value,max(0,(m6[0]-m6[3]+((long)img->mpr[i+block_x][3+block_y]<<DQ_BITS)+DQ_ROUND)>>DQ_BITS));
+    } 
+    else 
+    {
+      if(lossless_qpprime)
       {
-        img->m7[i][j] =min(img->max_imgpel_value,max(0,(m6[j]+m6[j1]+((long)img->mpr[i+block_x][j+block_y] <<DQ_BITS)+DQ_ROUND)>>DQ_BITS));
-        img->m7[i][j1]=min(img->max_imgpel_value,max(0,(m6[j]-m6[j1]+((long)img->mpr[i+block_x][j1+block_y]<<DQ_BITS)+DQ_ROUND)>>DQ_BITS));
-      } 
-      else 
+        img->m7[i][0] =m6[0]+m6[3];
+        img->m7[i][3]=m6[0]-m6[3];
+      }
+      else
       {
-        if(lossless_qpprime)
-        {
-          img->m7[i][j] =m6[j]+m6[j1];
-          img->m7[i][j1]=m6[j]-m6[j1];
-        }
-        else
-        {
-          img->m7[i][j] =(m6[j]+m6[j1]+DQ_ROUND)>>DQ_BITS;
-          img->m7[i][j1]=(m6[j]-m6[j1]+DQ_ROUND)>>DQ_BITS;
-        }
+        img->m7[i][0] =(m6[0]+m6[3]+DQ_ROUND)>>DQ_BITS;
+        img->m7[i][3]=(m6[0]-m6[3]+DQ_ROUND)>>DQ_BITS;
       }
     }
+
+    //j1=3-j;
+    // Residue Color Transform
+    if (!img->residue_transform_flag)
+    {
+      img->m7[i][1] =min(img->max_imgpel_value,max(0,(m6[1]+m6[2]+((long)img->mpr[i+block_x][1+block_y] <<DQ_BITS)+DQ_ROUND)>>DQ_BITS));
+      img->m7[i][2]=min(img->max_imgpel_value,max(0,(m6[1]-m6[2]+((long)img->mpr[i+block_x][2+block_y]<<DQ_BITS)+DQ_ROUND)>>DQ_BITS));
+    } 
+    else 
+    {
+      if(lossless_qpprime)
+      {
+        img->m7[i][1] =m6[1]+m6[2];
+        img->m7[i][2]=m6[1]-m6[2];
+      }
+      else
+      {
+        img->m7[i][1] =(m6[1]+m6[2]+DQ_ROUND)>>DQ_BITS;
+        img->m7[i][2]=(m6[1]-m6[2]+DQ_ROUND)>>DQ_BITS;
+      }
+    }
+
   }
   
   //  Decoded block moved to frame memory
   if (!img->residue_transform_flag)
   {
-    for (j=0; j < BLOCK_SIZE; j++)
+    if(!lossless_qpprime)
     {
-      for (i=0; i < BLOCK_SIZE; i++)
+      //for (j=0; j < BLOCK_SIZE; j++)
+      //{
+        //for (i=0; i < BLOCK_SIZE; i++)
+        //{ 
+            enc_picture->imgY[img->pix_y+block_y+0][img->pix_x+block_x+0]=img->m7[0][0];
+            enc_picture->imgY[img->pix_y+block_y+0][img->pix_x+block_x+1]=img->m7[1][0];
+            enc_picture->imgY[img->pix_y+block_y+0][img->pix_x+block_x+2]=img->m7[2][0];
+            enc_picture->imgY[img->pix_y+block_y+0][img->pix_x+block_x+3]=img->m7[3][0];
+
+            enc_picture->imgY[img->pix_y+block_y+1][img->pix_x+block_x+0]=img->m7[0][1];
+            enc_picture->imgY[img->pix_y+block_y+1][img->pix_x+block_x+1]=img->m7[1][1];
+            enc_picture->imgY[img->pix_y+block_y+1][img->pix_x+block_x+2]=img->m7[2][1];
+            enc_picture->imgY[img->pix_y+block_y+1][img->pix_x+block_x+3]=img->m7[3][1];
+
+            enc_picture->imgY[img->pix_y+block_y+2][img->pix_x+block_x+0]=img->m7[0][2];
+            enc_picture->imgY[img->pix_y+block_y+2][img->pix_x+block_x+1]=img->m7[1][2];
+            enc_picture->imgY[img->pix_y+block_y+2][img->pix_x+block_x+2]=img->m7[2][2];
+            enc_picture->imgY[img->pix_y+block_y+2][img->pix_x+block_x+3]=img->m7[3][2];
+
+            enc_picture->imgY[img->pix_y+block_y+3][img->pix_x+block_x+0]=img->m7[0][3];
+            enc_picture->imgY[img->pix_y+block_y+3][img->pix_x+block_x+1]=img->m7[1][3];
+            enc_picture->imgY[img->pix_y+block_y+3][img->pix_x+block_x+2]=img->m7[2][3];
+            enc_picture->imgY[img->pix_y+block_y+3][img->pix_x+block_x+3]=img->m7[3][3];
+        //}
+      //}
+    }
+    else
+    {
+      for (j=0; j < BLOCK_SIZE; j++)
       {
-        if(lossless_qpprime)
-          enc_picture->imgY[img->pix_y+block_y+j][img->pix_x+block_x+i]=img->m7[i][j]+img->mpr[i+block_x][j+block_y];
-        else
-          enc_picture->imgY[img->pix_y+block_y+j][img->pix_x+block_x+i]=img->m7[i][j];
+        for (i=0; i < BLOCK_SIZE; i++)
+        {
+            enc_picture->imgY[img->pix_y+block_y+j][img->pix_x+block_x+i]=img->m7[i][j]+img->mpr[i+block_x][j+block_y];
+        }
       }
     }
+    
   }
   return nonzero;
 }
