@@ -407,7 +407,7 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
         {
           LineSadBlk0 = LineSadBlk1 = LineSadBlk2 = LineSadBlk3 = 0;
 
-          pel_t* refptrarr[4];
+          //pel_t* refptrarr[4];
           // refptrarr[0] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
           // refptrarr[1] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
           // refptrarr[2] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
@@ -421,23 +421,32 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
           //   LineSadBlk0 += byte_abs [*(refptrarr[y]+2) - *(orgptr+2+index)];
           //   LineSadBlk0 += byte_abs [*(refptrarr[y]+3) - *(orgptr+3+index)];
           // }
-          
+          /*
           refptrarr[0] = UMVLine16Y_11 (ref_pic, abs_y, abs_x, img_height, img_width);
+          orgptr+=15;
+          refptr = refptrarr[0]+16;
           refptrarr[1] = UMVLine16Y_11 (ref_pic, abs_y+1, abs_x, img_height, img_width);
+          orgptr+=15;
+          refptr = refptrarr[1]+16;
           refptrarr[2] = UMVLine16Y_11 (ref_pic, abs_y+2, abs_x, img_height, img_width);
+          orgptr+=15;
+          refptr = refptrarr[2]+16;
           refptrarr[3] = UMVLine16Y_11 (ref_pic, abs_y+3, abs_x, img_height, img_width);
-          
+          orgptr-=15;
+          orgptr-=15;
+          orgptr-=15;
+
           for (y = 0; y < 4; y++)
           {
             
-            refptr = UMVLine16Y_11 (ref_pic, abs_y+y, abs_x, img_height, img_width);
+            // UMVLine16Y_11 (ref_pic, abs_y+y, abs_x, img_height, img_width);
             //abs_y++;
-            if( refptrarr[y] != refptr) printf("xxzp y == %d\n",y);
+            //if( refptrarr[y] != refptr) printf("xxzp y == %d\n",y);
             refptr = refptrarr[y];
-            LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+            LineSadBlk0 += byte_abs [*refptr - *orgptr++];
+            LineSadBlk0 += byte_abs [*(refptr+1) - *orgptr++];
+            LineSadBlk0 += byte_abs [*(refptr+2) - *orgptr++];
+            LineSadBlk0 += byte_abs [*(refptr+3) - *orgptr++];
             // refptr++;
             // orgptr++;
             // refptr++;
@@ -446,60 +455,68 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
             // orgptr++;
             // refptr++;
             // orgptr++;
-            LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-            LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+            LineSadBlk1 += byte_abs [*(refptr+4) - *orgptr++];
+            LineSadBlk1 += byte_abs [*(refptr+5) - *orgptr++];
+            LineSadBlk1 += byte_abs [*(refptr+6) - *orgptr++];
+            LineSadBlk1 += byte_abs [*(refptr+7) - *orgptr++];
+            LineSadBlk2 += byte_abs [*(refptr+8) - *orgptr++];
+            LineSadBlk2 += byte_abs [*(refptr+9) - *orgptr++];
+            LineSadBlk2 += byte_abs [*(refptr+10) - *orgptr++];
+            LineSadBlk2 += byte_abs [*(refptr+11) - *orgptr++];
+            LineSadBlk3 += byte_abs [*(refptr+12) - *orgptr++];
+            LineSadBlk3 += byte_abs [*(refptr+13) - *orgptr++];
+            LineSadBlk3 += byte_abs [*(refptr+14)- *orgptr++];
+            LineSadBlk3 += byte_abs [*(refptr+15) - *orgptr++];
+            refptr+=16;
           }
           abs_y+=4;
-          //#pragma clang loop unroll_count(4)
-          // pel_t* refptr[4];
-          // refptr[0] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptr[1] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptr[2] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptr[3] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          */
 
-          // for (y = 0; y < 4; y++)
-          // {
-          //   //refptr = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          //   int index = 16*y;
-          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+0+index)];
-          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+1+index)];
-          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+2+index)];
-          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+3+index)];
-          // }
-          // for (y = 0; y < 4; y++)
-          // {
-          //   int index = 16*y;
-          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+4+index)];
-          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+5+index)];
-          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+6+index)];
-          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+7+index)];
-          // }
-          // for (y = 0; y < 4; y++)
-          // {
-          //   int index = 16*y;
-          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+8+index)];
-          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+9+index)];
-          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+10+index)];
-          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+11+index)];
-          // }
-          // for (y = 0; y < 4; y++)
-          // {
-          //   int index = 16*y;
-          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+12+index)];
-          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+13+index)];
-          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+14+index)];
-          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+15+index)];
-          // }
+          //#pragma clang loop unroll_count(4)
+           pel_t* refptrarr[4];
+          // refptrarr[0] = UMVLine16Y_11 (ref_pic, abs_y, abs_x, img_height, img_width);
+          // refptrarr[1] = UMVLine16Y_11 (ref_pic, abs_y+1, abs_x, img_height, img_width);
+          // refptrarr[2] = UMVLine16Y_11 (ref_pic, abs_y+2, abs_x, img_height, img_width);
+          // refptrarr[3] = UMVLine16Y_11 (ref_pic, abs_y+3, abs_x, img_height, img_width);
+
+          for (y = 0; y < 4; y++)
+          {
+            refptrarr[y] = UMVLine16Y_11 (ref_pic, abs_y+y, abs_x, img_height, img_width);
+            int index = 16*y;
+            LineSadBlk0 += byte_abs [*(refptrarr[y]) - *(orgptr+0+index)];
+            LineSadBlk0 += byte_abs [*(refptrarr[y]+1) - *(orgptr+1+index)];
+            LineSadBlk0 += byte_abs [*(refptrarr[y]+2) - *(orgptr+2+index)];
+            LineSadBlk0 += byte_abs [*(refptrarr[y]+3) - *(orgptr+3+index)];
+          }
+          for (y = 0; y < 4; y++)
+          {
+            refptrarr[y] = UMVLine16Y_11 (ref_pic, abs_y+y, abs_x, img_height, img_width);
+            int index = 16*y;
+            LineSadBlk1 += byte_abs [*(refptrarr[y]+4) - *(orgptr+4+index)];
+            LineSadBlk1 += byte_abs [*(refptrarr[y]+5) - *(orgptr+5+index)];
+            LineSadBlk1 += byte_abs [*(refptrarr[y]+6) - *(orgptr+6+index)];
+            LineSadBlk1 += byte_abs [*(refptrarr[y]+7) - *(orgptr+7+index)];
+          }
+          for (y = 0; y < 4; y++)
+          {
+            refptrarr[y] = UMVLine16Y_11 (ref_pic, abs_y+y, abs_x, img_height, img_width);
+            int index = 16*y;
+            LineSadBlk2 += byte_abs [*(refptrarr[y]+8) - *(orgptr+8+index)];
+            LineSadBlk2 += byte_abs [*(refptrarr[y]+9) - *(orgptr+9+index)];
+            LineSadBlk2 += byte_abs [*(refptrarr[y]+10) - *(orgptr+10+index)];
+            LineSadBlk2 += byte_abs [*(refptrarr[y]+11) - *(orgptr+11+index)];
+          }
+          for (y = 0; y < 4; y++)
+          {
+            refptrarr[y] = UMVLine16Y_11 (ref_pic, abs_y+y, abs_x, img_height, img_width);
+            int index = 16*y;
+            LineSadBlk3 += byte_abs [*(refptrarr[y]+12) - *(orgptr+12+index)];
+            LineSadBlk3 += byte_abs [*(refptrarr[y]+13) - *(orgptr+13+index)];
+            LineSadBlk3 += byte_abs [*(refptrarr[y]+14) - *(orgptr+14+index)];
+            LineSadBlk3 += byte_abs [*(refptrarr[y]+15) - *(orgptr+15+index)];
+          }
+          abs_y+=4;
+          refptr = refptrarr[3]+16;
           block_sad[bindex++][pos] = LineSadBlk0;
           block_sad[bindex++][pos] = LineSadBlk1;
           block_sad[bindex++][pos] = LineSadBlk2;
@@ -1210,7 +1227,7 @@ SATD (int* diff, int use_hadamard)
     m[14] = diff[ 1] - diff[13] - diff[ 5] + diff[ 9] - diff[ 2] + diff[14] + diff[ 6] - diff[10];
     m[15] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8] - diff[ 3] + diff[15] + diff[ 7] - diff[11];
     
-    //明天改这个
+
     d[ 0] = m[ 0] + m[ 1];
     d[ 1] = m[ 0] - m[ 1];
     d[ 2] = m[ 2] + m[ 3];
