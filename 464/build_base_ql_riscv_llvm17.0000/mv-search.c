@@ -406,46 +406,15 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
         for (blky = 0; blky < 4; blky++)
         {
           LineSadBlk0 = LineSadBlk1 = LineSadBlk2 = LineSadBlk3 = 0;
-
-          pel_t* refptrarr[4];
-          // refptrarr[0] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptrarr[1] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptrarr[2] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptrarr[3] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // for (y = 0; y < 4; y++)
-          // {
-          //   //refptr = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          //   int index = 16*y;
-          //   LineSadBlk0 += byte_abs [*(refptrarr[y]) - *(orgptr+0+index)];
-          //   LineSadBlk0 += byte_abs [*(refptrarr[y]+1) - *(orgptr+1+index)];
-          //   LineSadBlk0 += byte_abs [*(refptrarr[y]+2) - *(orgptr+2+index)];
-          //   LineSadBlk0 += byte_abs [*(refptrarr[y]+3) - *(orgptr+3+index)];
-          // }
-          
-          refptrarr[0] = UMVLine16Y_11 (ref_pic, abs_y, abs_x, img_height, img_width);
-          refptrarr[1] = UMVLine16Y_11 (ref_pic, abs_y+1, abs_x, img_height, img_width);
-          refptrarr[2] = UMVLine16Y_11 (ref_pic, abs_y+2, abs_x, img_height, img_width);
-          refptrarr[3] = UMVLine16Y_11 (ref_pic, abs_y+3, abs_x, img_height, img_width);
           
           for (y = 0; y < 4; y++)
           {
-            
-            refptr = UMVLine16Y_11 (ref_pic, abs_y+y, abs_x, img_height, img_width);
-            //abs_y++;
-            if( refptrarr[y] != refptr) printf("xxzp y == %d\n",y);
-            refptr = refptrarr[y];
+            refptr = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+    
             LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-            // refptr++;
-            // orgptr++;
-            // refptr++;
-            // orgptr++;
-            // refptr++;
-            // orgptr++;
-            // refptr++;
-            // orgptr++;
             LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
@@ -459,47 +428,7 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
             LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
             LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
           }
-          abs_y+=4;
-          //#pragma clang loop unroll_count(4)
-          // pel_t* refptr[4];
-          // refptr[0] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptr[1] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptr[2] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          // refptr[3] = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
 
-          // for (y = 0; y < 4; y++)
-          // {
-          //   //refptr = UMVLine16Y_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          //   int index = 16*y;
-          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+0+index)];
-          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+1+index)];
-          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+2+index)];
-          //   LineSadBlk0 += byte_abs [*(refptr[y]++) - *(orgptr+3+index)];
-          // }
-          // for (y = 0; y < 4; y++)
-          // {
-          //   int index = 16*y;
-          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+4+index)];
-          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+5+index)];
-          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+6+index)];
-          //   LineSadBlk1 += byte_abs [*(refptr[y]++) - *(orgptr+7+index)];
-          // }
-          // for (y = 0; y < 4; y++)
-          // {
-          //   int index = 16*y;
-          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+8+index)];
-          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+9+index)];
-          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+10+index)];
-          //   LineSadBlk2 += byte_abs [*(refptr[y]++) - *(orgptr+11+index)];
-          // }
-          // for (y = 0; y < 4; y++)
-          // {
-          //   int index = 16*y;
-          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+12+index)];
-          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+13+index)];
-          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+14+index)];
-          //   LineSadBlk3 += byte_abs [*(refptr[y]++) - *(orgptr+15+index)];
-          // }
           block_sad[bindex++][pos] = LineSadBlk0;
           block_sad[bindex++][pos] = LineSadBlk1;
           block_sad[bindex++][pos] = LineSadBlk2;
@@ -512,32 +441,84 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
 
       orgptr = orig_blocks;
       bindex = 0;
+      
       for (blky = 0; blky < 4; blky++)
       {
         LineSadBlk0 = LineSadBlk1 = LineSadBlk2 = LineSadBlk3 = 0;
         //#pragma clang loop unroll_count(4)
+        
+        // for (y = 0; y < 4; y++)
+        // {
+        //   refptr = &ref_pic[abs_y++*img_width+abs_x];
+
+        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+
+        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+
+        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+
+        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        // }
+
+        unsigned short* refptrarr[4];
+        refptrarr[0] = &ref_pic[abs_y++*img_width+abs_x];
+        refptrarr[1] = &ref_pic[abs_y++*img_width+abs_x];
+        refptrarr[2] = &ref_pic[abs_y++*img_width+abs_x];
+        refptrarr[3] = &ref_pic[abs_y++*img_width+abs_x];
+        
+        #pragma clang loop unroll_count(4)
         for (y = 0; y < 4; y++)
         {
           //refptr = PelYline_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          refptr = &ref_pic[abs_y++*img_width+abs_x];
-
-          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+          //refptr = &ref_pic[abs_y++*img_width+abs_x];
+          int index = 16*y;
+          
+          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+index)];
+          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+1+index)];
+          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+2+index)];
+          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+3+index)];
         }
+        #pragma clang loop unroll_count(4)
+        for (y = 0; y < 4; y++)
+        {
+          int index = 16*y;
+          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+4+index)];
+          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+5+index)];
+          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+6+index)];
+          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+7+index)];
+        }
+        #pragma clang loop unroll_count(4)
+        for (y = 0; y < 4; y++)
+        {
+          int index = 16*y;
+          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+8+index)];
+          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+9+index)];
+          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+10+index)];
+          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+11+index)];
+        }
+        #pragma clang loop unroll_count(4)
+        for (y = 0; y < 4; y++)
+        {
+          int index = 16*y;
+          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+12+index)];
+          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+13+index)];
+          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+14+index)];
+          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+15+index)];
+        }
+         orgptr+=16*4;
+        
         block_sad[bindex++][pos] = LineSadBlk0;
         block_sad[bindex++][pos] = LineSadBlk1;
         block_sad[bindex++][pos] = LineSadBlk2;
@@ -547,7 +528,7 @@ void SetupFastFullPelSearch (short ref, int list)  // <--  reference frame param
 
     
   }
-
+        
 
   //===== combine SAD's for larger block types =====
   SetupLargerBlocks (list, ref, max_pos);
@@ -1085,6 +1066,7 @@ FastFullPelBlockMotionSearch (pel_t**   orig_pic,     // <--  not used
   }
 
   //===== loop over all search positions =====
+  #pragma clang loop unroll_count(16)
   for (pos=0; pos<max_pos; pos++, block_sad++)
   {
     //--- check residual cost ---
@@ -1104,6 +1086,7 @@ FastFullPelBlockMotionSearch (pel_t**   orig_pic,     // <--  not used
       }
     }
   }
+
 
   //===== set best motion vector and return minimum motion cost =====
   *mv_x = offset_x + spiral_search_x[best_pos];
@@ -1246,10 +1229,12 @@ SATD (int* diff, int use_hadamard)
     // d[15] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8] - diff[ 3] + diff[15] + diff[ 7] - diff[11] - diff[ 1] + diff[13] + diff[ 5] - diff[ 9] + diff[ 2] - diff[14] - diff[ 6] + diff[10];
     
     /*===== sum up =====*/
+     
     for (dd=d[k=0]; k<16; dd=d[++k])
     {
       satd += (dd < 0 ? -dd : dd);
     }
+
     satd = ((satd+1)>>1);
   }
   else
@@ -2861,7 +2846,7 @@ BlockMotionSearch (short     ref,           //!< reference idx
   if(input->FMEnable)
     FME_blocktype=blocktype;
 
-  SetMotionVectorPredictor (pred_mv, enc_picture->ref_idx, enc_picture->mv, ref, list, block_x, block_y, bsx, bsy);
+  SetMotionVectorPredictor (pred_mv, enc_picture->ref_idx, enc_picture->mv, ref, list, block_x, block_y, bsx, bsy);//x1
 
   pred_mv_x = pred_mv[0];
   pred_mv_y = pred_mv[1];
@@ -2919,7 +2904,7 @@ BlockMotionSearch (short     ref,           //!< reference idx
 
     // comments:   - orig_pic is not used  -> be careful
     //             - search center is automatically determined
-    min_mcost = FastFullPelBlockMotionSearch (orig_pic, ref, list, pic_pix_x, pic_pix_y, blocktype,
+    min_mcost = FastFullPelBlockMotionSearch (orig_pic, ref, list, pic_pix_x, pic_pix_y, blocktype,//x2
                                               pred_mv_x, pred_mv_y, &mv_x, &mv_y, search_range,
                                               min_mcost, lambda);
 
@@ -2976,7 +2961,7 @@ BlockMotionSearch (short     ref,           //!< reference idx
       min_mcost = max_value;
     }
     
-    min_mcost =  SubPelBlockMotionSearch (orig_pic, ref, list, pic_pix_x, pic_pix_y, blocktype,
+    min_mcost =  SubPelBlockMotionSearch (orig_pic, ref, list, pic_pix_x, pic_pix_y, blocktype,//x3
       pred_mv_x, pred_mv_y, &mv_x, &mv_y, 9, 9,
       min_mcost, lambda);            
  }
