@@ -171,7 +171,7 @@ FastSubPelBlockMotionSearch (pel_t**   orig_pic,      // <--  original pixel val
                              double    lambda,        // <--  lagrangian parameter for determining motion cost
                              int  useABT);
 
-int                                               //  ==> minimum motion cost after search
+__attribute__((noinline)) int                                               //  ==> minimum motion cost after search
 SubPelBlockMotionSearch (pel_t**   orig_pic,      // <--  original pixel values for the AxB block
                          short     ref,           // <--  reference frame (0... or -1 (backward))
                          int       list,

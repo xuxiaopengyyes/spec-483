@@ -1251,7 +1251,7 @@ int glob_long_term_pic_idx_l1[20];
 void intrapred_luma(int CurrPixX,int CurrPixY, int *left_available, int *up_available, int *all_available);
 void init();
 int  find_sad(int hadamard, int m7[16][16]);
-int  dct_luma(int pos_mb1,int pos_mb2,int *cnt_nonz, int intra);
+__attribute__((noinline)) int  dct_luma(int pos_mb1,int pos_mb2,int *cnt_nonz, int intra);
 int  dct_luma_sp(int pos_mb1,int pos_mb2,int *cnt_nonz);
 void copyblock_sp(int pos_mb1,int pos_mb2);
 int  dct_chroma(int uv,int i11);
@@ -1282,7 +1282,7 @@ int  TransformDecision(int, int*);
 int  SATD8X8(int*, int);
 
 void LumaPrediction4x4 (int, int, int, int, int, short, short);
-int  SATD (int*, int);
+__attribute__((noinline)) int  SATD (int*, int);
 
 pel_t* FastLineX (int, pel_t*, int, int, int, int);
 pel_t* UMVLineX  (int, pel_t*, int, int, int, int);
@@ -1469,7 +1469,7 @@ void modify_redundant_pic_cnt(unsigned char *streamBuffer);
 // End JVT-D101
 
 // Fast ME enable
-int BlockMotionSearch (short,int,int,int,int,int,double);
+__attribute__((noinline)) int BlockMotionSearch (short,int,int,int,int,int,double);
 void encode_one_macroblock (void);
 
 int RDCost_for_4x4Blocks_Chroma (int b8, int b4, int  chroma);

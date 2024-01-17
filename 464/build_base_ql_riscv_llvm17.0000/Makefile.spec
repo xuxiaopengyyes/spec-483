@@ -1,5 +1,5 @@
 TUNE=base
-EXT=ql_riscv_llvm17-rv64-ptg
+EXT=ql_riscv_llvm17-rv64gcb
 NUMBER=464
 NAME=h264ref
 SOURCES= annexb.c biariencode.c block.c cabac.c configfile.c context_ini.c \
@@ -16,10 +16,10 @@ ONESTEP=
 CONESTEP=
 
 CC               = /home/xzp/lib/llvm-riscv-17.0.0-rc2/bin/clang --target=riscv64-unknown-linux-gnu --gcc-toolchain=/home/xzp/lib/gnu-riscv64 --sysroot=/home/xzp/lib/gnu-riscv64/sysroot/
-COPTIMIZE        =-std=c89 -w -Wno-int-conversion -O3 -ffast-math -march=rv64gc -flto -ffp-contract=off  -Wno-compound-token-split-by-macro  -static -fno-inline
+COPTIMIZE        = -std=c89 -Wno-int-conversion -O3 -ffast-math -march=rv64gc_zba_zbb_zbc_zbs -flto -ffp-contract=off  -Wno-compound-token-split-by-macro  -static -w
 CPORTABILITY     = -fsigned-char                                      
 CXX              = /home/xzp/lib/llvm-riscv-17.0.0-rc2/bin/clang++ --target=riscv64-unknown-linux-gnu --gcc-toolchain=/home/xzp/lib/gnu-riscv64 --sysroot=/home/xzp/lib/gnu-riscv64/sysroot/
-CXXOPTIMIZE      = -std=c++98 -O3 -ffast-math -march=rv64gc -flto -ffp-contract=off -Wno-compound-token-split-by-macro -static
+CXXOPTIMIZE      = -std=c++98 -O3 -ffast-math -march=rv64gc_zba_zbb_zbc_zbs -flto -ffp-contract=off -Wno-compound-token-split-by-macro -static
 EXTRA_LDFLAGS    = -z muldefs -fuse-ld=lld
 EXTRA_LIBS       = -lm
 FPBASE           = yes
@@ -41,7 +41,7 @@ check_md5        = 1
 check_version    = 1
 command_add_redirect = 0
 commanderrfile   = speccmds.err
-commandexe       = h264ref_base.ql_riscv_llvm17-rv64-ptg
+commandexe       = h264ref_base.ql_riscv_llvm17-rv64gcb
 commandfile      = speccmds.cmd
 commandoutfile   = speccmds.out
 commandstdoutfile = speccmds.stdout
@@ -52,7 +52,7 @@ comparestdoutfile = compare.stdout
 compile_error    = 0
 compwhite        = 1
 configdir        = config
-configpath       = /home/xzp/speccpu2006-v1.0.1/config/riscv_llvm17-rv64-ptg.cfg
+configpath       = /home/xzp/speccpu2006-v1.0.1/config/riscv_llvm17-rv64gcb_jmalloc.cfg
 copies           = 1
 datadir          = data
 delay            = 0
@@ -65,7 +65,7 @@ env_vars         = 0
 exitvals         = spec_exit
 expand_notes     = 0
 expid            = 
-ext              = ql_riscv_llvm17-rv64-ptg
+ext              = ql_riscv_llvm17-rv64gcb
 fake             = 0
 feedback         = 1
 flag_url_base    = http://www.spec.org/auto/cpu2006/flags/
@@ -102,8 +102,8 @@ line_width       = 0
 locking          = 1
 log              = CPU2006
 log_line_width   = 0
-logname          = /home/xzp/speccpu2006-v1.0.1/result/CPU2006.178.log
-lognum           = 178
+logname          = /home/xzp/speccpu2006-v1.0.1/result/CPU2006.179.log
+lognum           = 179
 mach             = default
 mail_reports     = all
 mailcompress     = 0
@@ -147,7 +147,7 @@ reportable       = 0
 resultdir        = result
 review           = 0
 run              = all
-runspec          = /home/xzp/speccpu2006-v1.0.1/bin/runspec -c riscv_llvm17-rv64-ptg.cfg --size=ref --noreportable --tune=base --iterations=3 --speed --action=setup 464
+runspec          = /home/xzp/speccpu2006-v1.0.1/bin/runspec -c riscv_llvm17-rv64gcb_jmalloc.cfg --size=ref --noreportable --tune=base --iterations=3 --speed --action=setup 464
 safe_eval        = 1
 section_specifier_fatal = 1
 sendmail         = /usr/sbin/sendmail

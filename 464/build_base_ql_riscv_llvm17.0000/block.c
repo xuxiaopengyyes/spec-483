@@ -872,7 +872,7 @@ int dct_luma_16x16(int new_intra_mode)
 *    coeff_cost: Counter for nonzero coefficients, used to discard expensive levels.
 ************************************************************************
 */
-int dct_luma(int block_x,int block_y,int *coeff_cost, int intra)
+__attribute__((noinline)) int dct_luma(int block_x,int block_y,int *coeff_cost, int intra)
 {
   int sign(int a,int b);
 
