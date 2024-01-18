@@ -16,7 +16,7 @@ ONESTEP=
 CONESTEP=
 
 CC               = /home/xzp/lib/llvm-riscv-17.0.0-rc2/bin/clang --target=riscv64-unknown-linux-gnu --gcc-toolchain=/home/xzp/lib/gnu-riscv64 --sysroot=/home/xzp/lib/gnu-riscv64/sysroot/
-COPTIMIZE        = -std=c89 -Wno-int-conversion -O3 -ffast-math -march=rv64gc_zba_zbb_zbc_zbs -flto -ffp-contract=off  -Wno-compound-token-split-by-macro  -static -w
+COPTIMIZE        = -std=c89 -Wno-int-conversion -O3 -ffast-math -march=rv64gc_zba_zbb_zbc_zbs -flto -ffp-contract=off  -Wno-compound-token-split-by-macro  -static -w  -fprofile-use=merged.profdata
 CPORTABILITY     = -fsigned-char                                      
 CXX              = /home/xzp/lib/llvm-riscv-17.0.0-rc2/bin/clang++ --target=riscv64-unknown-linux-gnu --gcc-toolchain=/home/xzp/lib/gnu-riscv64 --sysroot=/home/xzp/lib/gnu-riscv64/sysroot/
 CXXOPTIMIZE      = -std=c++98 -O3 -ffast-math -march=rv64gc_zba_zbb_zbc_zbs -flto -ffp-contract=off -Wno-compound-token-split-by-macro -static

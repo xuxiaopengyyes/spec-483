@@ -903,7 +903,9 @@ __attribute__((noinline)) int dct_luma(int block_x,int block_y,int *coeff_cost, 
 */
 //  printf("q_bits %d %d %d %d\n",q_bits,qp_per,qp_const,LevelOffset4x4Luma_Intra[qp_per][0][0]);
   //  Horizontal transform
-  for (j=0; j < BLOCK_SIZE && !lossless_qpprime; j++)
+  if(!lossless_qpprime)
+  {
+  for (j=0; j < BLOCK_SIZE; j++)
   {
     // for (i=0; i < 2; i++)
     // {
@@ -923,9 +925,11 @@ __attribute__((noinline)) int dct_luma(int block_x,int block_y,int *coeff_cost, 
     img->m7[1][j]=m5[3]*2+m5[2];
     img->m7[3][j]=m5[3]-m5[2]*2;
   }
-
+  }
   //  Vertical transform
-  for (i=0; i < BLOCK_SIZE && !lossless_qpprime; i++)
+  if(!lossless_qpprime)
+  {
+  for (i=0; i < BLOCK_SIZE; i++)
   {
     // for (j=0; j < 2; j++)
     // {
@@ -942,6 +946,7 @@ __attribute__((noinline)) int dct_luma(int block_x,int block_y,int *coeff_cost, 
     img->m7[i][2]=(m5[0]-m5[1]);
     img->m7[i][1]=m5[3]*2+m5[2];
     img->m7[i][3]=m5[3]-m5[2]*2;
+  }
   }
 
   // Quant
@@ -1017,7 +1022,9 @@ __attribute__((noinline)) int dct_luma(int block_x,int block_y,int *coeff_cost, 
   
   //     IDCT.
   //     horizontal
-  for (j=0; j < BLOCK_SIZE && !lossless_qpprime; j++)
+  if(!lossless_qpprime)
+  {
+  for (j=0; j < BLOCK_SIZE; j++)
   {
     // for (i=0; i < BLOCK_SIZE; i++)
     // {
@@ -1045,9 +1052,12 @@ __attribute__((noinline)) int dct_luma(int block_x,int block_y,int *coeff_cost, 
     img->m7[2][j]=m6[1]-m6[2];
 
   }
+  }
 
   //  vertical
-  for (i=0; i < BLOCK_SIZE && !lossless_qpprime; i++)
+  if(!lossless_qpprime)
+  {
+  for (i=0; i < BLOCK_SIZE; i++)
   {
     // for (j=0; j < BLOCK_SIZE; j++)
     // {
@@ -1129,6 +1139,7 @@ __attribute__((noinline)) int dct_luma(int block_x,int block_y,int *coeff_cost, 
       }
     }
 
+  }
   }
   
   //  Decoded block moved to frame memory

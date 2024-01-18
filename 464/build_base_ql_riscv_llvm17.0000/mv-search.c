@@ -233,8 +233,8 @@ ResetFastFullIntegerSearch ()
 __attribute__((noinline)) void
 SetupLargerBlocks (int list, int refindex, int max_pos)
 {
-#define ADD_UP_BLOCKS()   _o=*_bo; _i=*_bi; _j=*_bj; for(pos=0;pos<max_pos-4;pos+=4) {_o[pos] = _i[pos] + _j[pos]; _o[pos+1] = _i[pos+1] + _j[pos+1]; _o[pos+2] = _i[pos+2] + _j[pos+2]; _o[pos+3] = _i[pos+3] + _j[pos+3];} for(;pos<max_pos;pos++) _o[pos] = _i[pos] + _j[pos];
-//#define ADD_UP_BLOCKS()   _o=*_bo; _i=*_bi; _j=*_bj; for(pos=0;pos<max_pos;pos++) _o[pos] = _i[pos] + _j[pos];
+//#define ADD_UP_BLOCKS()   _o=*_bo; _i=*_bi; _j=*_bj; for(pos=0;pos<max_pos-4;pos+=4) {_o[pos] = _i[pos] + _j[pos]; _o[pos+1] = _i[pos+1] + _j[pos+1]; _o[pos+2] = _i[pos+2] + _j[pos+2]; _o[pos+3] = _i[pos+3] + _j[pos+3];} for(;pos<max_pos;pos++) _o[pos] = _i[pos] + _j[pos];
+#define ADD_UP_BLOCKS()   _o=*_bo; _i=*_bi; _j=*_bj; for(pos=0;pos<max_pos;pos++) _o[pos] = _i[pos] + _j[pos];
 #define INCREMENT(inc)    _bo+=inc; _bi+=inc; _bj+=inc;
 
   int    pos, **_bo, **_bi, **_bj;
@@ -446,82 +446,82 @@ void __attribute__((noinline)) SetupFastFullPelSearch (short ref, int list)  // 
       {
         LineSadBlk0 = LineSadBlk1 = LineSadBlk2 = LineSadBlk3 = 0;
         //#pragma clang loop unroll_count(4)
-        #pragma clang loop unroll(disable)
+        // #pragma clang loop unroll(disable)
+        // for (y = 0; y < 4; y++)
+        // {
+        //   refptr = &ref_pic[abs_y++*img_width+abs_x];
+
+        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+
+        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+
+        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+
+        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        // }
+
+        unsigned short* refptrarr[4];
+        refptrarr[0] = &ref_pic[abs_y++*img_width+abs_x];
+        refptrarr[1] = &ref_pic[abs_y++*img_width+abs_x];
+        refptrarr[2] = &ref_pic[abs_y++*img_width+abs_x];
+        refptrarr[3] = &ref_pic[abs_y++*img_width+abs_x];
+        
+        #pragma clang loop unroll_count(4)
+        //#pragma clang loop unroll(disable)
         for (y = 0; y < 4; y++)
         {
-          refptr = &ref_pic[abs_y++*img_width+abs_x];
-
-          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-
-          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-
-          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-
-          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-        }
-
-        // unsigned short* refptrarr[4];
-        // refptrarr[0] = &ref_pic[abs_y++*img_width+abs_x];
-        // refptrarr[1] = &ref_pic[abs_y++*img_width+abs_x];
-        // refptrarr[2] = &ref_pic[abs_y++*img_width+abs_x];
-        // refptrarr[3] = &ref_pic[abs_y++*img_width+abs_x];
-        
-        // //#pragma clang loop unroll_count(4)
-        // #pragma clang loop unroll(disable)
-        // for (y = 0; y < 4; y++)
-        // {
-        //   //refptr = PelYline_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-        //   //refptr = &ref_pic[abs_y++*img_width+abs_x];
-        //   int index = 16*y;
+          //refptr = PelYline_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+          //refptr = &ref_pic[abs_y++*img_width+abs_x];
+          int index = 16*y;
           
-        //   LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+index)];
-        //   LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+1+index)];
-        //   LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+2+index)];
-        //   LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+3+index)];
-        // }
-        // //#pragma clang loop unroll_count(4)
-        // #pragma clang loop unroll(disable)
-        // for (y = 0; y < 4; y++)
-        // {
-        //   int index = 16*y;
-        //   LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+4+index)];
-        //   LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+5+index)];
-        //   LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+6+index)];
-        //   LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+7+index)];
-        // }
-        // //#pragma clang loop unroll_count(4)
-        // #pragma clang loop unroll(disable)
-        // for (y = 0; y < 4; y++)
-        // {
-        //   int index = 16*y;
-        //   LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+8+index)];
-        //   LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+9+index)];
-        //   LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+10+index)];
-        //   LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+11+index)];
-        // }
-        // //#pragma clang loop unroll_count(4)
-        // #pragma clang loop unroll(disable)
-        // for (y = 0; y < 4; y++)
-        // {
-        //   int index = 16*y;
-        //   LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+12+index)];
-        //   LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+13+index)];
-        //   LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+14+index)];
-        //   LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+15+index)];
-        // }
-        //  orgptr+=16*4;
+          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+index)];
+          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+1+index)];
+          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+2+index)];
+          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+3+index)];
+        }
+        #pragma clang loop unroll_count(4)
+        //#pragma clang loop unroll(disable)
+        for (y = 0; y < 4; y++)
+        {
+          int index = 16*y;
+          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+4+index)];
+          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+5+index)];
+          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+6+index)];
+          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+7+index)];
+        }
+        #pragma clang loop unroll_count(4)
+        //#pragma clang loop unroll(disable)
+        for (y = 0; y < 4; y++)
+        {
+          int index = 16*y;
+          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+8+index)];
+          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+9+index)];
+          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+10+index)];
+          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+11+index)];
+        }
+        #pragma clang loop unroll_count(4)
+        //#pragma clang loop unroll(disable)
+        for (y = 0; y < 4; y++)
+        {
+          int index = 16*y;
+          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+12+index)];
+          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+13+index)];
+          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+14+index)];
+          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+15+index)];
+        }
+         orgptr+=16*4;
         
         block_sad[bindex++][pos] = LineSadBlk0;
         block_sad[bindex++][pos] = LineSadBlk1;

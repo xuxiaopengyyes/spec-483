@@ -16,7 +16,7 @@ ONESTEP=
 CONESTEP=
 
 CC               = /home/xzp/LLVM/llvm/install-17.0.0-rc1/bin/clang
-COPTIMIZE        = -std=c89 -Wno-int-conversion -O3 -ffast-math -march=znver2 -flto -ffp-contract=off  -Wno-compound-token-split-by-macro  -static -w -fno-inline
+COPTIMIZE        = -std=c89 -Wno-int-conversion -O3 -ffast-math -march=znver2 -flto -ffp-contract=off  -Wno-compound-token-split-by-macro  -static -w 
 CPORTABILITY     = -fsigned-char                                      
 CXX              = /home/xzp/LLVM/llvm/install-17.0.0-rc1/bin/clang++
 CXXOPTIMIZE      = -std=c++98 -O3 -ffast-math -march=znver2 -flto -ffp-contract=off -Wno-compound-token-split-by-macro -static -fno-vectorize -fno-slp-vectorize
