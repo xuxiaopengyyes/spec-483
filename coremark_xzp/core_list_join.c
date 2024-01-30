@@ -17,6 +17,7 @@ Original Author: Shay Gal-on
 */
 
 #include "coremark.h"
+#include <stdlib.h>
 /*
 Topic: Description
         Benchmark using a linked list.
@@ -142,7 +143,7 @@ cmp_idx(list_data *a, list_data *b, core_results *res)
 }
 
 void
-copy_info(list_data *to, list_data *from)
+copy_info(list_head *to, list_data *from)
 {
     to->data16 = from->data16;
     to->idx    = from->idx;
@@ -178,13 +179,13 @@ core_bench_list(core_results *res, ee_s16 finder_idx)
         if (this_find == NULL)
         {
             missed++;
-            retval += (list->next->info->data16 >> 8) & 1;
+            retval += (list->next->data16 >> 8) & 1;
         }
         else
         {
             found++;
-            if (this_find->info->data16 & 0x1) /* use found value */
-                retval += (this_find->info->data16 >> 9) & 1;
+            if (this_find->data16 & 0x1) /* use found value */
+                retval += (this_find->data16 >> 9) & 1;
             /* and cache next item at the head of the list (if any) */
             if (this_find->next != NULL)
             {
@@ -212,7 +213,7 @@ core_bench_list(core_results *res, ee_s16 finder_idx)
         finder = list->next;
     while (finder)
     {
-        retval = crc16(list->info->data16, retval);
+        retval = crc16(list->data16, retval);
         finder = finder->next;
     }
 #if CORE_DEBUG
@@ -225,7 +226,7 @@ core_bench_list(core_results *res, ee_s16 finder_idx)
     finder = list->next;
     while (finder)
     {
-        retval = crc16(list->info->data16, retval);
+        retval = crc16(list->data16, retval);
         finder = finder->next;
     }
 #if CORE_DEBUG
@@ -265,9 +266,10 @@ core_list_init(ee_u32 blksize, list_head *memblock, ee_s16 seed)
 
     /* create a fake items for the list head and tail */
     list->next         = NULL;
-    list->info         = datablock;
-    list->info->idx    = 0x0000;
-    list->info->data16 = (ee_s16)0x8080;
+    list->idx = datablock->idx;
+    list->data16 = datablock->data16;
+    list->idx    = 0x0000;
+    list->data16 = (ee_s16)0x8080;
     memblock++;
     datablock++;
     info.idx    = 0x7fff;
@@ -292,11 +294,11 @@ core_list_init(ee_u32 blksize, list_head *memblock, ee_s16 seed)
     while (finder->next != NULL)
     {
         if (i < size / 5) /* first 20% of the list in order */
-            finder->info->idx = i++;
+            finder->idx = i++;
         else
         {
             ee_u16 pat = (ee_u16)(i++ ^ seed); /* get a pseudo random number */
-            finder->info->idx = 0x3fff
+            finder->idx = 0x3fff
                                 & (((i & 0x07) << 8)
                                    | pat); /* make sure the mixed items end up
                                               after the ones in sequence */
@@ -352,9 +354,10 @@ core_list_insert_new(list_head * insert_point,
     newitem->next      = insert_point->next;
     insert_point->next = newitem;
 
-    newitem->info = *datablock;
+    newitem->data16 = (*datablock)->data16;
+    newitem->idx = (*datablock)->idx;
     (*datablock)++;
-    copy_info(newitem->info, info);
+    copy_info(newitem, info);
 
     return newitem;
 }
@@ -376,12 +379,17 @@ core_list_insert_new(list_head * insert_point,
 list_head *
 core_list_remove(list_head *item)
 {
-    list_data *tmp;
+    ee_s16 tmpdata16;
+    ee_s16 tmpidx;
+
     list_head *ret = item->next;
     /* swap data pointers */
-    tmp        = item->info;
-    item->info = ret->info;
-    ret->info  = tmp;
+    tmpdata16        = item->data16;
+    tmpidx = item->idx;
+    item->idx = ret->idx;
+    item->data16 = ret ->data16;
+    ret->idx  = tmpidx;
+    ret->data16 = tmpdata16;
     /* and eliminate item */
     item->next = item->next->next;
     ret->next  = NULL;
@@ -407,11 +415,16 @@ core_list_remove(list_head *item)
 list_head *
 core_list_undo_remove(list_head *item_removed, list_head *item_modified)
 {
-    list_data *tmp;
+    ee_s16 tmpidx;
+    ee_s16 tmpdata16;
     /* swap data pointers */
-    tmp                 = item_removed->info;
-    item_removed->info  = item_modified->info;
-    item_modified->info = tmp;
+    tmpidx                 = item_removed->idx;
+    tmpdata16 = item_removed->data16;
+    item_removed->idx  = item_modified->idx;
+    item_removed->data16  = item_modified->data16;
+
+    item_modified->idx = tmpidx;
+    item_modified->data16 = tmpdata16;
     /* and insert item */
     item_removed->next  = item_modified->next;
     item_modified->next = item_removed;
@@ -436,13 +449,13 @@ core_list_find(list_head *list, list_data *info)
 {
     if (info->idx >= 0)
     {
-        while (list && (list->info->idx != info->idx))
+        while (list && (list->idx != info->idx))
             list = list->next;
         return list;
     }
     else
     {
-        while (list && ((list->info->data16 & 0xff) != info->data16))
+        while (list && ((list->data16 & 0xff) != info->data16))
             list = list->next;
         return list;
     }
@@ -533,7 +546,7 @@ core_list_mergesort(list_head *list, list_cmp cmp, core_results *res)
             /* now we have two lists; merge them */
             while (psize > 0 || (qsize > 0 && q))
             {
-
+                
                 /* decide whether next element of merge comes from p or q */
                 if (psize == 0)
                 {
@@ -549,20 +562,31 @@ core_list_mergesort(list_head *list, list_cmp cmp, core_results *res)
                     p = p->next;
                     psize--;
                 }
-                else if (cmp(p->info, q->info, res) <= 0)
+                else 
                 {
-                    /* First element of p is lower (or same); e must come from
-                     * p. */
-                    e = p;
-                    p = p->next;
-                    psize--;
-                }
-                else
-                {
-                    /* First element of q is lower; e must come from q. */
-                    e = q;
-                    q = q->next;
-                    qsize--;
+                    list_data* pinfo = (list_data*)malloc(sizeof(list_data));
+                    list_data* qinfo = (list_data*)malloc(sizeof(list_data));
+                    
+                    pinfo->data16 = p->data16;
+                    pinfo->idx = p->idx;
+
+                    qinfo->data16 = q->data16;
+                    qinfo->idx = q->idx;
+                    if (cmp(p->info, q->info, res) <= 0)
+                    {
+                        /* First element of p is lower (or same); e must come from
+                        * p. */
+                        e = p;
+                        p = p->next;
+                        psize--;
+                    }
+                    else
+                    {
+                        /* First element of q is lower; e must come from q. */
+                        e = q;
+                        q = q->next;
+                        qsize--;
+                    }
                 }
 
                 /* add the next element to the merged list */

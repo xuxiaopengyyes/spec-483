@@ -98,6 +98,8 @@ typedef struct list_head_s
 {
     struct list_head_s *next;
     struct list_data_s *info;
+    ee_s16 data16;
+    ee_s16 idx;
 } list_head;
 
 /*matrix benchmark related stuff */
