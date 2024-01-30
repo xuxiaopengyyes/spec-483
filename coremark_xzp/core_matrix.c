@@ -197,20 +197,7 @@ core_init_matrix(ee_u32 blksize, void *memblk, ee_s32 seed, mat_params *p)
     A = (MATDAT *)align_mem(memblk);
     B = A + N * N;
 
-    for (i = 0; i < N; i++)
-    {
-        for (j = 0; j < N; j++)
-        {
-            seed         = ((order * seed) % 65536);
-            val          = (seed + order);
-            val          = matrix_clip(val, 0);
-            B[i * N + j] = val;
-            val          = (val + order);
-            val          = matrix_clip(val, 1);
-            A[i * N + j] = val;
-            order++;
-        }
-    }
+
 
     p->A = A;
     p->B = B;

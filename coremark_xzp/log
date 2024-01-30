@@ -1,0 +1,19 @@
+2K performance run parameters for coremark.
+[0]ERROR! list crc 0x63ff - should be 0xe714
+[0]ERROR! matrix crc 0x8bed - should be 0x1fd7
+[0]ERROR! state crc 0x018d - should be 0x8e3a
+CoreMark Size    : 666
+Total ticks      : 12577
+Total time (secs): 12.577000
+Iterations/Sec   : 2385.306512
+Iterations       : 30000
+Compiler version : GCC9.4.0
+Compiler flags   : 
+Memory location  : Please put data memory location here
+			(e.g. code in flash, data on heap etc)
+seedcrc          : 0xe9f5
+[0]crclist       : 0x63ff
+[0]crcmatrix     : 0x8bed
+[0]crcstate      : 0x018d
+[0]crcfinal      : 0xcaf2
+Errors detected

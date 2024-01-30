@@ -572,7 +572,7 @@ core_list_mergesort(list_head *list, list_cmp cmp, core_results *res)
 
                     qinfo->data16 = q->data16;
                     qinfo->idx = q->idx;
-                    if (cmp(p->info, q->info, res) <= 0)
+                    if (cmp(pinfo, qinfo, res) <= 0)
                     {
                         /* First element of p is lower (or same); e must come from
                         * p. */
