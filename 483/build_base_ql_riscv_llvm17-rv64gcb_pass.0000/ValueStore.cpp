@@ -261,6 +261,160 @@ void ValueStore::endValueScope() {
     }
 }
 
+// bool ValueStore::contains(const FieldValueMap* const other) {
+
+//     if (fValueTuples) {
+
+//         unsigned int otherSize = other->size();
+//         unsigned int tupleSize = fValueTuples->size();
+        
+//         DatatypeValidator* dv2 = other->getDatatypeValidatorAt(0);
+//         XMLCh* val2 = other->getValueAt(0);
+//         unsigned int val2Len = XMLString::stringLen(val2);
+        
+//         for (unsigned int i=0; i<tupleSize; i++) {
+
+//             FieldValueMap* valueMap = fValueTuples->elementAt(i);
+
+//             if (otherSize == valueMap->size() ) {
+            
+//                 if(isDuplicateOf(valueMap->getDatatypeValidatorAt(0), valueMap->getValueAt(0),
+//                                 dv2, val2, val2Len))
+//                 {
+//                     return true;
+//                 }
+//             }
+//         }
+//     }
+//     return false;
+// }
+
+//修改2
+// bool ValueStore::contains(const FieldValueMap* const other) {
+
+//     if (fValueTuples) {
+
+//         unsigned int tupleSize = fValueTuples->size();
+        
+//         XMLCh* val2 = other->getValueAt(0);
+        
+//         for (unsigned int i=0; i<tupleSize; i++) {
+
+//             FieldValueMap* valueMap = fValueTuples->elementAt(i);
+
+//                 const XMLCh* psz1 = valueMap->getValueAt(0);
+
+//                 const XMLCh* psz2 = val2;
+
+//                 while (true)
+//                 {
+//                     // If an inequality, then return the difference
+//                     if (*psz1 != *psz2)
+//                     {
+//                         break;
+//                     }
+                        
+//                     // If either has ended, then they both ended, so equal
+//                     if (!*psz1)
+//                     {
+//                         return true;
+//                     }
+
+
+//                     // Move upwards for the next round
+//                     psz1++;
+//                     psz2++;
+//                 }
+//         }
+//     }
+//     return false;
+// }
+//////////////、
+//激进版
+// bool ValueStore::contains(const FieldValueMap* const other) {
+
+//     if (fValueTuples) {
+
+//         unsigned int tupleSize = fValueTuples->size();
+        
+//         XMLCh* val2 = other->getValueAt(0);
+//         unsigned int len = XMLString::stringLen(val2);
+        
+//         for (unsigned int i=0; i<tupleSize; i++) {
+
+//             FieldValueMap* valueMap = fValueTuples->elementAt(i);
+
+//                 const XMLCh* psz1 = valueMap->getValueAt(0);
+
+//                 const XMLCh* psz2 = val2;
+//                 unsigned int j = 0;
+//                 unsigned int ts = len/4;
+//                 bool f = true;
+//                 for(; j<ts; j+=1)
+//                 {
+//                     if((((u_int64_t*)psz1)[j]) != (((u_int64_t*)psz2)[j] ))
+//                     {
+//                         f=false;
+//                         break;
+//                     }
+//                 }
+
+//                 if(f)
+//                 {
+
+//                     for(unsigned int k = j*4; k<len+1; k++)
+//                     {
+//                         // If an inequality, then return the difference
+//                         if (psz1[k] != psz2[k])
+//                         {
+//                             break;
+//                         }
+                            
+//                         // If either has ended, then they both ended, so equal
+//                         if (!psz1[k])
+//                         {
+//                             return true;
+//                         }
+
+//                     }
+//                 }    
+//         }
+//     }
+//     return false;
+// }
+
+// bool ValueStore::contains(const FieldValueMap* const other) {
+
+//     if (fValueTuples) {
+
+//         unsigned int otherSize = other->size();
+//         unsigned int tupleSize = fValueTuples->size();
+        
+//         DatatypeValidator* dv2 = other->getDatatypeValidatorAt(0);
+//         XMLCh* val2 = other->getValueAt(0);
+//         unsigned int val2Len = XMLString::stringLen(val2);
+        
+//         for (unsigned int i=0; i<tupleSize; i++) {
+
+//             FieldValueMap* valueMap = fValueTuples->elementAt(i);
+//             unsigned int& val2Len1 = val2Len;
+//             bool flag = true;
+//             if (otherSize == valueMap->size() ) {
+            
+//                 if(!isDuplicateOf(valueMap->getDatatypeValidatorAt(0), valueMap->getValueAt(0),
+//                                 dv2, val2, val2Len1))
+//                 {
+//                     flag = false;
+//                 }
+//             }
+//             if(flag)
+//             {
+//                 return true;
+//             }
+//         }
+//     }
+//     return false;
+// }
 bool ValueStore::contains(const FieldValueMap* const other) {
 
     if (fValueTuples) {
@@ -281,13 +435,12 @@ bool ValueStore::contains(const FieldValueMap* const other) {
 
                 if (otherSize == valueMap->size()) {
 
-                    //isDuplicateOf被inline
-                    if (isDuplicateOf(valueMap->getDatatypeValidatorAt(0), valueMap->getValueAt(0),
+                        if (isDuplicateOf(valueMap->getDatatypeValidatorAt(0), valueMap->getValueAt(0),
                                        dv2, val2, val2Len)) {
-                        return true;
-                    }
-                
+                            return true;
+                        }
                 }
+                
             }
         //}
     }
@@ -295,7 +448,7 @@ bool ValueStore::contains(const FieldValueMap* const other) {
     return false;
  }
 bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const val1,
-                               DatatypeValidator* const dv2, const XMLCh* const val2, unsigned int val2Len) {
+                               DatatypeValidator* const dv2, const XMLCh* const val2,unsigned int val2Len) {
 
     // if either validator's null, fall back on string comparison
     if(!dv1 || !dv2) {
@@ -303,10 +456,9 @@ bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const 
     }
 
     unsigned int val1Len = XMLString::stringLen(val1);
-    //unsigned int val3Len = XMLString::stringLen(val2);
+    //unsigned int val2Len = XMLString::stringLen(val2);
 
     if (!val1Len && !val2Len) {
-
         if (dv1 == dv2) {
             return true;
         }
@@ -321,18 +473,25 @@ bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const 
     // are the validators equal?
     // As always we are obliged to compare by reference...
     if (dv1 == dv2) {
-
+        //return (XMLString::compareString(val1, val2) == 0);
         unsigned int j = val2Len/4;
         unsigned int i = 0;
-        for(; i<j; i++)
+        for(;i<j;i++)
         {
             // If an inequality, then return the difference
             if (((u_int64_t*)val1)[i] != ((u_int64_t*)val2)[i])
             {
+                // for(unsigned int k=0;k<4;k++)
+                // {
+                //     if(val1[4*i+k]!=val2[4*i+k])
+                //     {
+                //         return false;
+                //     }
+                // }
                 return false;
             }
         }
-        for(unsigned int k= 4*i; k < val2Len+1; k++)
+        for(unsigned int k= 4*i;k<val2Len+1;k++)
         {
             //If an inequality, then return the difference
             if (val1[k] != val2[k])
@@ -344,6 +503,18 @@ bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const 
         }
 
         return true;
+        // for(unsigned int k= 0;k<val2Len+1;k++)
+        // {
+        //     //If an inequality, then return the difference
+        //     if (val1[k] != val2[k])
+        //         return false;
+
+        //     // If either has ended, then they both ended, so equal
+        //     if (!val1[k])
+        //         break;
+        // }
+        //return true;
+    
     }
 
     // see if this.fValidator is derived from value.fValidator:
@@ -351,19 +522,67 @@ bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const 
     for(; !tempVal || tempVal == dv2; tempVal = tempVal->getBaseValidator()) ;
 
     if (tempVal) { // was derived!
-        return ((dv2->compare(val1, val2, fMemoryManager)) == 0);
+        return (XMLString::compareString1(val1, val2, val2Len) == 0);
     }
 
     // see if value.fValidator is derived from this.fValidator:
     for(tempVal = dv2; !tempVal || tempVal == dv1; tempVal = tempVal->getBaseValidator()) ;
-
     if(tempVal) { // was derived!
-        return ((dv1->compare(val1, val2, fMemoryManager)) == 0);
+        return (XMLString::compareString1(val1, val2, val2Len) == 0);
     }
 
     // if we're here it means the types weren't related.  Must fall back to strings:
     return (XMLString::equals(val1, val2));
 }
+// bool ValueStore::isDuplicateOf(DatatypeValidator* const dv1, const XMLCh* const val1,
+//                                DatatypeValidator* const dv2, const XMLCh* const val2,unsigned int val2Len) {
+
+//     // if either validator's null, fall back on string comparison
+//     if(!dv1 || !dv2) {
+//         return (XMLString::equals(val1, val2));
+//     }
+
+//     unsigned int val1Len = XMLString::stringLen(val1);
+//     //unsigned int val2Len = XMLString::stringLen(val2);
+
+//     if (!val1Len && !val2Len) {
+
+//         if (dv1 == dv2) {
+//             return true;
+//         }
+
+//         return false;
+//     }
+
+//     if (!val1Len || !val2Len) {
+//         return false;
+//     }
+
+//     // are the validators equal?
+//     // As always we are obliged to compare by reference...
+//     if (dv1 == dv2) {
+//         return ((dv1->compare(val1, val2, fMemoryManager)) == 0);
+//     }
+
+//     // see if this.fValidator is derived from value.fValidator:
+//     DatatypeValidator* tempVal = dv1;
+//     for(; !tempVal || tempVal == dv2; tempVal = tempVal->getBaseValidator()) ;
+
+//     if (tempVal) { // was derived!
+//         return ((dv2->compare(val1, val2, fMemoryManager)) == 0);
+//     }
+
+//     // see if value.fValidator is derived from this.fValidator:
+//     for(tempVal = dv2; !tempVal || tempVal == dv1; tempVal = tempVal->getBaseValidator()) ;
+
+//     if(tempVal) { // was derived!
+//         return ((dv1->compare(val1, val2, fMemoryManager)) == 0);
+//     }
+
+//     // if we're here it means the types weren't related.  Must fall back to strings:
+//     return (XMLString::equals(val1, val2));
+// }
+
 
 // ---------------------------------------------------------------------------
 //  ValueStore: Docuement handling methods

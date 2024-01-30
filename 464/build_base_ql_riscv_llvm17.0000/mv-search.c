@@ -446,82 +446,82 @@ void __attribute__((noinline)) SetupFastFullPelSearch (short ref, int list)  // 
       {
         LineSadBlk0 = LineSadBlk1 = LineSadBlk2 = LineSadBlk3 = 0;
         //#pragma clang loop unroll_count(4)
-        // #pragma clang loop unroll(disable)
+        //#pragma clang loop unroll(disable)
+        for (y = 0; y < 4; y++)
+        {
+          refptr = &ref_pic[abs_y++*img_width+abs_x];
+
+          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
+
+          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
+
+          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
+
+          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+          LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
+        }
+
+        // unsigned short* refptrarr[4];
+        // refptrarr[0] = &ref_pic[abs_y++*img_width+abs_x];
+        // refptrarr[1] = &ref_pic[abs_y++*img_width+abs_x];
+        // refptrarr[2] = &ref_pic[abs_y++*img_width+abs_x];
+        // refptrarr[3] = &ref_pic[abs_y++*img_width+abs_x];
+        
+        // #pragma clang loop unroll_count(4)
+        // //#pragma clang loop unroll(disable)
         // for (y = 0; y < 4; y++)
         // {
-        //   refptr = &ref_pic[abs_y++*img_width+abs_x];
-
-        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk0 += byte_abs [*refptr++ - *orgptr++];
-
-        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk1 += byte_abs [*refptr++ - *orgptr++];
-
-        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk2 += byte_abs [*refptr++ - *orgptr++];
-
-        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-        //   LineSadBlk3 += byte_abs [*refptr++ - *orgptr++];
-        // }
-
-        unsigned short* refptrarr[4];
-        refptrarr[0] = &ref_pic[abs_y++*img_width+abs_x];
-        refptrarr[1] = &ref_pic[abs_y++*img_width+abs_x];
-        refptrarr[2] = &ref_pic[abs_y++*img_width+abs_x];
-        refptrarr[3] = &ref_pic[abs_y++*img_width+abs_x];
-        
-        #pragma clang loop unroll_count(4)
-        //#pragma clang loop unroll(disable)
-        for (y = 0; y < 4; y++)
-        {
-          //refptr = PelYline_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
-          //refptr = &ref_pic[abs_y++*img_width+abs_x];
-          int index = 16*y;
+        //   //refptr = PelYline_11 (ref_pic, abs_y++, abs_x, img_height, img_width);
+        //   //refptr = &ref_pic[abs_y++*img_width+abs_x];
+        //   int index = 16*y;
           
-          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+index)];
-          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+1+index)];
-          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+2+index)];
-          LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+3+index)];
-        }
-        #pragma clang loop unroll_count(4)
-        //#pragma clang loop unroll(disable)
-        for (y = 0; y < 4; y++)
-        {
-          int index = 16*y;
-          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+4+index)];
-          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+5+index)];
-          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+6+index)];
-          LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+7+index)];
-        }
-        #pragma clang loop unroll_count(4)
-        //#pragma clang loop unroll(disable)
-        for (y = 0; y < 4; y++)
-        {
-          int index = 16*y;
-          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+8+index)];
-          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+9+index)];
-          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+10+index)];
-          LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+11+index)];
-        }
-        #pragma clang loop unroll_count(4)
-        //#pragma clang loop unroll(disable)
-        for (y = 0; y < 4; y++)
-        {
-          int index = 16*y;
-          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+12+index)];
-          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+13+index)];
-          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+14+index)];
-          LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+15+index)];
-        }
-         orgptr+=16*4;
+        //   LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+index)];
+        //   LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+1+index)];
+        //   LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+2+index)];
+        //   LineSadBlk0 += byte_abs [*refptrarr[y]++ - *(orgptr+3+index)];
+        // }
+        // #pragma clang loop unroll_count(4)
+        // //#pragma clang loop unroll(disable)
+        // for (y = 0; y < 4; y++)
+        // {
+        //   int index = 16*y;
+        //   LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+4+index)];
+        //   LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+5+index)];
+        //   LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+6+index)];
+        //   LineSadBlk1 += byte_abs [*refptrarr[y]++ - *(orgptr+7+index)];
+        // }
+        // #pragma clang loop unroll_count(4)
+        // //#pragma clang loop unroll(disable)
+        // for (y = 0; y < 4; y++)
+        // {
+        //   int index = 16*y;
+        //   LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+8+index)];
+        //   LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+9+index)];
+        //   LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+10+index)];
+        //   LineSadBlk2 += byte_abs [*refptrarr[y]++ - *(orgptr+11+index)];
+        // }
+        // #pragma clang loop unroll_count(4)
+        // //#pragma clang loop unroll(disable)
+        // for (y = 0; y < 4; y++)
+        // {
+        //   int index = 16*y;
+        //   LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+12+index)];
+        //   LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+13+index)];
+        //   LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+14+index)];
+        //   LineSadBlk3 += byte_abs [*refptrarr[y]++ - *(orgptr+15+index)];
+        // }
+        //  orgptr+=16*4;
         
         block_sad[bindex++][pos] = LineSadBlk0;
         block_sad[bindex++][pos] = LineSadBlk1;
@@ -1110,7 +1110,7 @@ __attribute__((noinline)) int
 SATD (int* diff, int use_hadamard)
 {
   int k, satd = 0, m[16], dd, d[16];
-  
+  float* fdiff = (float*)diff;
   if (use_hadamard)
   {
     /*===== hadamard transform =====*/
@@ -1233,7 +1233,15 @@ SATD (int* diff, int use_hadamard)
     // d[15] = diff[ 0] - diff[12] - diff[ 4] + diff[ 8] - diff[ 3] + diff[15] + diff[ 7] - diff[11] - diff[ 1] + diff[13] + diff[ 5] - diff[ 9] + diff[ 2] - diff[14] - diff[ 6] + diff[10];
     
     /*===== sum up =====*/
-     
+    //int xxx=0;
+    // for(int xx=0;xx<16;xx++)
+    // {
+    //   if(diff[xx] > 10000)
+    //   {
+    //     xxx++;
+    //   }
+    // }
+    // if(xxx>0)printf("xxzp %d\n",xxx);
     for (dd=d[k=0]; k<16; dd=d[++k])
     {
       satd += (dd < 0 ? -dd : dd);

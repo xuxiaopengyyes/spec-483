@@ -465,6 +465,17 @@ public:
       *  Equal to 0 means <code>str1</code> is identical to <code>str2</code>
       *  Greater than 0 means <code>str1</code> is more than <code>str2</code>
       */
+    static int compareString1
+    (
+        const   XMLCh* const    str1
+        , const XMLCh* const    str2
+        , unsigned int Len
+    );
+        static int compareString2
+    (
+        const   XMLCh* const    str1
+        , const XMLCh* const    str2
+    );
     static int compareString
     (
         const   XMLCh* const    str1
