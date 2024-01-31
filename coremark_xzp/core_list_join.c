@@ -62,7 +62,7 @@ list_head *core_list_insert_new(list_head * insert_point,
                                 list_data **datablock,
                                 list_head * memblock_end,
                                 list_data * datablock_end);
-typedef ee_s32 (*list_cmp)(list_data *a, list_data *b, core_results *res);
+typedef ee_s32 (*list_cmp)(list_head *a, list_head *b, core_results *res);
 list_head *core_list_mergesort(list_head *   list,
                                list_cmp      cmp,
                                core_results *res);
@@ -119,7 +119,7 @@ calc_func(ee_s16 *pdata, core_results *res)
         Can be used by mergesort.
 */
 ee_s32
-cmp_complex(list_data *a, list_data *b, core_results *res)
+cmp_complex(list_head *a, list_head *b, core_results *res)
 {
     ee_s16 val1 = calc_func(&(a->data16), res);
     ee_s16 val2 = calc_func(&(b->data16), res);
@@ -132,7 +132,7 @@ cmp_complex(list_data *a, list_data *b, core_results *res)
         Can be used by mergesort.
 */
 ee_s32
-cmp_idx(list_data *a, list_data *b, core_results *res)
+cmp_idx(list_head *a, list_head *b, core_results *res)
 {
     if (res == NULL)
     {
@@ -564,15 +564,15 @@ core_list_mergesort(list_head *list, list_cmp cmp, core_results *res)
                 }
                 else 
                 {
-                    list_data* pinfo = (list_data*)malloc(sizeof(list_data));
-                    list_data* qinfo = (list_data*)malloc(sizeof(list_data));
+                    // list_data* pinfo = (list_data*)malloc(sizeof(list_data));
+                    // list_data* qinfo = (list_data*)malloc(sizeof(list_data));
                     
-                    pinfo->data16 = p->data16;
-                    pinfo->idx = p->idx;
+                    // pinfo->data16 = p->data16;
+                    // pinfo->idx = p->idx;
 
-                    qinfo->data16 = q->data16;
-                    qinfo->idx = q->idx;
-                    if (cmp(pinfo, qinfo, res) <= 0)
+                    // qinfo->data16 = q->data16;
+                    // qinfo->idx = q->idx;
+                    if (cmp(p, q, res) <= 0)
                     {
                         /* First element of p is lower (or same); e must come from
                         * p. */
